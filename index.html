@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="sv">
+
 <head>
     <meta charset="UTF-8">
 
@@ -10,24 +11,30 @@
 
     <meta
         name="theme-color"
-        content="#15131b"
+        content="#fff7fb"
     >
 
     <title>TBR Spinner</title>
 
+    <!-- CSS -->
     <link
         rel="stylesheet"
-        href="styles.css"
+        href="styles.css?v=2"
     >
 </head>
+
 
 <body>
 
     <main class="app">
 
+        <!-- HEADER -->
+
         <header class="header">
 
-            <h1>📚 TBR Spinner</h1>
+            <h1>
+                📚 TBR Spinner
+            </h1>
 
             <p>
                 Let the wheel choose your next read
@@ -35,6 +42,8 @@
 
         </header>
 
+
+        <!-- WHEEL -->
 
         <section class="wheel-container">
 
@@ -53,6 +62,8 @@
         </section>
 
 
+        <!-- SPIN BUTTON -->
+
         <button
             class="spin-button"
             id="spinButton"
@@ -62,12 +73,16 @@
         </button>
 
 
+        <!-- SPINNING MESSAGE -->
+
         <div
             class="spinning-message"
             id="spinningMessage"
             aria-live="polite"
         ></div>
 
+
+        <!-- LITTLE TEXT -->
 
         <div class="helper-text">
             Spin the wheel and let fate choose your book ✨
@@ -76,7 +91,9 @@
     </main>
 
 
-    <!-- RESULT POPUP -->
+    <!-- ===================================
+         RESULT POPUP
+         =================================== -->
 
     <div
         class="result-overlay"
@@ -91,6 +108,8 @@
             aria-labelledby="resultText"
         >
 
+            <!-- ICON -->
+
             <div
                 class="result-icon"
                 aria-hidden="true"
@@ -99,10 +118,14 @@
             </div>
 
 
+            <!-- LABEL -->
+
             <div class="result-label">
                 YOUR PROMPT
             </div>
 
+
+            <!-- RESULT -->
 
             <h2
                 class="result-text"
@@ -111,6 +134,8 @@
                 Free pick
             </h2>
 
+
+            <!-- BUTTONS -->
 
             <div class="result-actions">
 
@@ -138,7 +163,10 @@
     </div>
 
 
-    <script src="script.js"></script>
+    <!-- JAVASCRIPT -->
+
+    <script src="script.js?v=2"></script>
 
 </body>
+
 </html>
