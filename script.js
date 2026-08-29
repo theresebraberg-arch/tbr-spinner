@@ -9,8 +9,6 @@
 
 const prompts = [
 
-    // ORIGINAL PROMPTS
-
     "Free pick",
     "Grönt omslag",
     "Romance",
@@ -115,12 +113,8 @@ const prompts = [
     "Eld på omslaget",
     "Självbiografi",
 
-
-    // EXTRA PROMPTS
-
     "First person POV",
     "Third person POV",
-
     "5 word title",
     "Lila omslag",
     "Beige / brunt omslag",
@@ -128,23 +122,17 @@ const prompts = [
     "Byggnad på omslaget",
     "Mat eller dryck på omslaget",
     "Illustrerat omslag",
-
     "300–400 sidor",
     "600+ sidor",
-
     "Äldre än dig",
     "Glömd TBR-bok",
-
     "Physical TBR",
     "Kindle / eBook",
-
     "BookTok made me do it",
     "Debut novel",
-
     "Historical fiction",
     "Psychological thriller",
     "Murder mystery",
-
     "Small town romance",
     "Second chance romance",
     "Friends to lovers",
@@ -155,11 +143,9 @@ const prompts = [
     "Only one bed",
     "Royal romance",
     "Mafia romance",
-
     "Serial killer",
     "Unreliable narrator",
     "Missing person",
-
     "Witches",
     "Ghosts",
     "Demons",
@@ -167,14 +153,12 @@ const prompts = [
     "Magic school",
     "Zombies",
     "Time travel",
-
     "Snowy setting",
     "Beach setting",
     "Forest setting",
     "Small town setting",
     "Road trip",
     "Island setting",
-
     "Family secrets",
     "Antihero",
     "Villain POV",
@@ -189,6 +173,26 @@ const prompts = [
 
 
 /* ------------------------------------------
+   MINI GENERATORS
+   ------------------------------------------ */
+
+const colorChoices = [
+    "Röd",
+    "Orange",
+    "Gul",
+    "Grön",
+    "Blå",
+    "Lila",
+    "Rosa",
+    "Vit",
+    "Svart",
+    "Grå",
+    "Brun",
+    "Beige"
+];
+
+
+/* ------------------------------------------
    ELEMENTS
    ------------------------------------------ */
 
@@ -197,20 +201,13 @@ const ctx = canvas.getContext("2d");
 
 const spinButton = document.getElementById("spinButton");
 
-const resultOverlay =
-    document.getElementById("resultOverlay");
+const resultOverlay = document.getElementById("resultOverlay");
+const resultText = document.getElementById("resultText");
 
-const resultText =
-    document.getElementById("resultText");
+const closeResultButton = document.getElementById("closeResult");
+const spinAgainButton = document.getElementById("spinAgain");
 
-const closeResultButton =
-    document.getElementById("closeResult");
-
-const spinAgainButton =
-    document.getElementById("spinAgain");
-
-const spinningMessage =
-    document.getElementById("spinningMessage");
+const spinningMessage = document.getElementById("spinningMessage");
 
 
 /* ------------------------------------------
@@ -218,14 +215,16 @@ const spinningMessage =
    ------------------------------------------ */
 
 const wheelColors = [
-    "#9b82c4",
-    "#cf8eaa",
-    "#7299b7",
-    "#c18d72",
-    "#789580",
-    "#b66f76",
-    "#8878ae",
-    "#b29a63"
+    "#f6a9cf",
+    "#c7b6ff",
+    "#a9d6f5",
+    "#b9e6d1",
+    "#ffc6a8",
+    "#ffe5a6",
+    "#ffbdd5",
+    "#d8c8ff",
+    "#bfe7ff",
+    "#c8efd8"
 ];
 
 
@@ -289,7 +288,7 @@ function drawWheel() {
         /* Separator */
 
         ctx.strokeStyle =
-            "rgba(20, 18, 25, 0.75)";
+            "rgba(74, 55, 91, 0.18)";
 
         ctx.lineWidth = 1;
 
@@ -311,10 +310,10 @@ function drawWheel() {
         ctx.textBaseline = "middle";
 
         ctx.fillStyle =
-            "rgba(255,255,255,0.95)";
+            "rgba(73, 51, 84, 0.9)";
 
         ctx.font =
-            "bold 11px -apple-system, BlinkMacSystemFont, sans-serif";
+            "800 11px -apple-system, BlinkMacSystemFont, sans-serif";
 
         ctx.fillText(
             index + 1,
@@ -323,7 +322,6 @@ function drawWheel() {
         );
 
         ctx.restore();
-
     });
 
 
@@ -340,9 +338,9 @@ function drawWheel() {
     );
 
     ctx.strokeStyle =
-        "rgba(255,255,255,0.45)";
+        "rgba(127, 98, 200, 0.5)";
 
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 4;
 
     ctx.stroke();
 
@@ -354,17 +352,17 @@ function drawWheel() {
     ctx.arc(
         center,
         center,
-        66,
+        67,
         0,
         Math.PI * 2
     );
 
-    ctx.fillStyle = "#18151e";
+    ctx.fillStyle = "#fffafd";
 
     ctx.fill();
 
     ctx.strokeStyle =
-        "rgba(255,255,255,0.85)";
+        "#b998e5";
 
     ctx.lineWidth = 4;
 
@@ -373,32 +371,32 @@ function drawWheel() {
 
     /* Center text */
 
-    ctx.fillStyle = "#ffffff";
+    ctx.fillStyle = "#6f4da2";
 
     ctx.textAlign = "center";
 
     ctx.textBaseline = "middle";
 
     ctx.font =
-        "800 20px -apple-system, BlinkMacSystemFont, sans-serif";
+        "900 21px -apple-system, BlinkMacSystemFont, sans-serif";
 
     ctx.fillText(
         "TBR",
         center,
-        center - 8
+        center - 7
     );
 
 
     ctx.fillStyle =
-        "rgba(255,255,255,0.55)";
+        "rgba(111, 77, 162, 0.65)";
 
     ctx.font =
-        "600 10px -apple-system, BlinkMacSystemFont, sans-serif";
+        "700 10px -apple-system, BlinkMacSystemFont, sans-serif";
 
     ctx.fillText(
         "SPINNER",
         center,
-        center + 15
+        center + 16
     );
 }
 
@@ -416,7 +414,6 @@ function normalizeAngle(angle) {
         angle % fullCircle;
 
     if (angle < 0) {
-
         angle += fullCircle;
     }
 
@@ -432,11 +429,6 @@ function getSelectedPrompt() {
 
     const slice =
         (Math.PI * 2) / prompts.length;
-
-    /*
-       Pointer sits at 12 o'clock.
-       Canvas angle there is 3π / 2.
-    */
 
     const pointerAngle =
         Math.PI * 1.5;
@@ -456,12 +448,62 @@ function getSelectedPrompt() {
 
 
 /* ------------------------------------------
+   RANDOM CHOICE
+   ------------------------------------------ */
+
+function randomChoice(list) {
+
+    const index =
+        Math.floor(
+            Math.random() * list.length
+        );
+
+    return list[index];
+}
+
+
+/* ------------------------------------------
+   SPECIAL PROMPTS
+   ------------------------------------------ */
+
+function resolveSpecialPrompt(prompt) {
+
+    if (prompt === "🎨 Color generator") {
+
+        const color =
+            randomChoice(colorChoices);
+
+        return `🎨 Color generator: ${color}`;
+    }
+
+
+    if (prompt === "Snurra igen") {
+
+        return "🔄 Snurra igen!";
+    }
+
+
+    if (prompt === "🔥 SPIN TWICE") {
+
+        return "🔥 SPIN TWICE – snurra två gånger och kombinera båda resultaten!";
+    }
+
+
+    return prompt;
+}
+
+
+/* ------------------------------------------
    SHOW RESULT
    ------------------------------------------ */
 
 function showResult(prompt) {
 
-    resultText.textContent = prompt;
+    const finalPrompt =
+        resolveSpecialPrompt(prompt);
+
+    resultText.textContent =
+        finalPrompt;
 
     resultOverlay.classList.add("show");
 
@@ -511,17 +553,9 @@ function spin() {
         rotation;
 
 
-    /*
-       Random number of complete turns.
-    */
-
     const extraTurns =
         7 + Math.random() * 4;
 
-
-    /*
-       Random final position.
-    */
 
     const randomLanding =
         Math.random() * Math.PI * 2;
@@ -534,7 +568,9 @@ function spin() {
         randomLanding;
 
 
-    const duration = 4500;
+    const duration =
+        4500;
+
 
     const startTime =
         performance.now();
@@ -545,18 +581,13 @@ function spin() {
         const elapsed =
             currentTime - startTime;
 
+
         const progress =
             Math.min(
                 elapsed / duration,
                 1
             );
 
-
-        /*
-           Ease-out quart:
-           fast beginning,
-           slow dramatic ending.
-        */
 
         const eased =
             1 -
@@ -602,11 +633,6 @@ function spin() {
             spinningMessage.textContent =
                 "";
 
-
-            /*
-               Tiny delay before popup.
-               Makes the landing feel nicer.
-            */
 
             setTimeout(() => {
 
@@ -654,7 +680,7 @@ spinAgainButton.addEventListener(
 
 
 /* ------------------------------------------
-   CLOSE BY CLICKING BACKGROUND
+   CLICK OUTSIDE POPUP
    ------------------------------------------ */
 
 resultOverlay.addEventListener(
