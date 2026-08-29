@@ -156,7 +156,7 @@ body {
 
 
 /* ==========================================
-   MAIN SPIN BUTTON
+   MAIN BUTTON
    ========================================== */
 
 .spin-button {
@@ -212,7 +212,7 @@ body {
 
 
 /* ==========================================
-   MAIN TEXT
+   TEXT
    ========================================== */
 
 .spinning-message {
@@ -614,7 +614,8 @@ body {
 }
 
 #colorWheel,
-#genreWheel {
+#genreWheel,
+#tropeWheel {
     width: 100%;
     height: 100%;
 
@@ -684,7 +685,7 @@ body {
 
 
 /* ==========================================
-   GENERATOR SPIN BUTTON
+   GENERATOR BUTTON
    ========================================== */
 
 .generator-spin-button {
@@ -805,7 +806,7 @@ body {
     }
 
     .test-buttons {
-        max-width: 330px;
+        max-width: 360px;
     }
 }
 
