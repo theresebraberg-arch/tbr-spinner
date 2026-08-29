@@ -1,9 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* ==========================================
-       TBR SPINNER
-       ========================================== */
-
     const prompts = [
         "Free pick",
         "Grönt omslag",
@@ -169,9 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
 
-    /* ==========================================
-       COLOR DATA
-       ========================================== */
+    /* COLOR DATA */
 
     const colorChoices = [
         { name: "Red", color: "#f28b82", emoji: "❤️" },
@@ -189,9 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
 
-    /* ==========================================
-       GENRE DATA
-       ========================================== */
+    /* GENRE DATA */
 
     const genreChoices = [
         "Romance",
@@ -209,9 +201,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
 
-    /* ==========================================
-       TROPE DATA
-       ========================================== */
+    /* TROPE DATA */
 
     const tropeChoices = [
         "Enemies to lovers",
@@ -229,9 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
 
-    /* ==========================================
-       LETTER DATA
-       ========================================== */
+    /* LETTER DATA */
 
     const letterChoices = [
         "A", "B", "C", "D", "E", "F", "G",
@@ -241,9 +229,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
 
-    /* ==========================================
-       ELEMENTS
-       ========================================== */
+    /* ELEMENTS */
 
     const canvas =
         document.getElementById("wheel");
@@ -253,19 +239,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const spinningMessage =
         document.getElementById("spinningMessage");
-
-
-    const testColorButton =
-        document.getElementById("testColorButton");
-
-    const testGenreButton =
-        document.getElementById("testGenreButton");
-
-    const testTropeButton =
-        document.getElementById("testTropeButton");
-
-    const testLetterButton =
-        document.getElementById("testLetterButton");
 
 
     const resultOverlay =
@@ -362,9 +335,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("closeLetterGenerator");
 
 
-    /* ==========================================
-       CANVAS CONTEXTS
-       ========================================== */
+    /* CANVAS */
 
     if (!canvas) {
         console.error("Main wheel canvas not found.");
@@ -395,9 +366,7 @@ document.addEventListener("DOMContentLoaded", () => {
             : null;
 
 
-    /* ==========================================
-       COLORS
-       ========================================== */
+    /* COLORS */
 
     const wheelColors = [
         "#f6a9cf",
@@ -428,9 +397,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
 
-    /* ==========================================
-       STATE
-       ========================================== */
+    /* STATE */
 
     let rotation = 0;
     let spinning = false;
@@ -448,9 +415,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let letterSpinning = false;
 
 
-    /* ==========================================
-       HELPERS
-       ========================================== */
+    /* HELPERS */
 
     function normalizeAngle(angle) {
 
@@ -485,27 +450,18 @@ document.addEventListener("DOMContentLoaded", () => {
             Math.PI * 2
         );
 
-        context.fillStyle =
-            "#fffafd";
-
+        context.fillStyle = "#fffafd";
         context.fill();
 
-        context.strokeStyle =
-            "#a78bd0";
-
+        context.strokeStyle = "#a78bd0";
         context.lineWidth = 4;
-
         context.stroke();
 
 
-        context.fillStyle =
-            "#6f4da2";
+        context.fillStyle = "#6f4da2";
 
-        context.textAlign =
-            "center";
-
-        context.textBaseline =
-            "middle";
+        context.textAlign = "center";
+        context.textBaseline = "middle";
 
         context.font =
             "900 15px -apple-system, BlinkMacSystemFont, sans-serif";
@@ -528,9 +484,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* ==========================================
-       MAIN WHEEL
-       ========================================== */
+    /* MAIN WHEEL */
 
     function drawWheel() {
 
@@ -612,11 +566,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     slice / 2
                 );
 
-                ctx.textAlign =
-                    "right";
-
-                ctx.textBaseline =
-                    "middle";
+                ctx.textAlign = "right";
+                ctx.textBaseline = "middle";
 
                 ctx.fillStyle =
                     "rgba(73, 51, 84, 0.9)";
@@ -649,7 +600,6 @@ document.addEventListener("DOMContentLoaded", () => {
             "rgba(127, 98, 200, 0.5)";
 
         ctx.lineWidth = 4;
-
         ctx.stroke();
 
 
@@ -663,27 +613,18 @@ document.addEventListener("DOMContentLoaded", () => {
             Math.PI * 2
         );
 
-        ctx.fillStyle =
-            "#fffafd";
-
+        ctx.fillStyle = "#fffafd";
         ctx.fill();
 
-        ctx.strokeStyle =
-            "#b998e5";
-
+        ctx.strokeStyle = "#b998e5";
         ctx.lineWidth = 4;
-
         ctx.stroke();
 
 
-        ctx.fillStyle =
-            "#6f4da2";
+        ctx.fillStyle = "#6f4da2";
 
-        ctx.textAlign =
-            "center";
-
-        ctx.textBaseline =
-            "middle";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
 
         ctx.font =
             "900 21px -apple-system, BlinkMacSystemFont, sans-serif";
@@ -735,9 +676,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* ==========================================
-       RESULT POPUP
-       ========================================== */
+    /* RESULT */
 
     function closeResult() {
 
@@ -745,15 +684,12 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        resultOverlay
-            .classList
-            .remove("show");
+        resultOverlay.classList.remove("show");
 
-        resultOverlay
-            .setAttribute(
-                "aria-hidden",
-                "true"
-            );
+        resultOverlay.setAttribute(
+            "aria-hidden",
+            "true"
+        );
     }
 
 
@@ -785,21 +721,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 description;
         }
 
-        resultOverlay
-            .classList
-            .add("show");
+        resultOverlay.classList.add("show");
 
-        resultOverlay
-            .setAttribute(
-                "aria-hidden",
-                "false"
-            );
+        resultOverlay.setAttribute(
+            "aria-hidden",
+            "false"
+        );
     }
 
 
-    /* ==========================================
-       SPECIAL PROMPTS
-       ========================================== */
+    /* SPECIAL PROMPTS */
 
     function handleSelectedPrompt(prompt) {
 
@@ -851,9 +782,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* ==========================================
-       MAIN SPIN
-       ========================================== */
+    /* MAIN SPIN */
 
     function spin() {
 
@@ -878,36 +807,23 @@ document.addEventListener("DOMContentLoaded", () => {
         const startRotation =
             rotation;
 
-        const extraTurns =
-            7 + Math.random() * 4;
-
-        const randomLanding =
+        const totalRotation =
+            (7 + Math.random() * 4) *
+            Math.PI *
+            2 +
             Math.random() *
             Math.PI *
             2;
 
-        const totalRotation =
-            extraTurns *
-            Math.PI *
-            2 +
-            randomLanding;
-
-        const duration =
-            4500;
-
-        const startTime =
-            performance.now();
+        const duration = 4500;
+        const startTime = performance.now();
 
 
         function animate(currentTime) {
 
-            const elapsed =
-                currentTime -
-                startTime;
-
             const progress =
                 Math.min(
-                    elapsed /
+                    (currentTime - startTime) /
                     duration,
                     1
                 );
@@ -973,9 +889,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* ==========================================
-       COLOR WHEEL
-       ========================================== */
+    /* COLOR */
 
     function drawColorWheel() {
 
@@ -1037,7 +951,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     "rgba(67, 50, 75, 0.18)";
 
                 colorCtx.lineWidth = 2;
-
                 colorCtx.stroke();
 
 
@@ -1053,11 +966,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     slice / 2
                 );
 
-                colorCtx.textAlign =
-                    "right";
-
-                colorCtx.textBaseline =
-                    "middle";
+                colorCtx.textAlign = "right";
+                colorCtx.textBaseline = "middle";
 
                 colorCtx.fillStyle =
                     choice.name === "Black"
@@ -1129,15 +1039,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 "Ready to spin 🎨";
         }
 
-        colorGeneratorOverlay
-            .classList
-            .add("show");
+        colorGeneratorOverlay.classList.add("show");
 
-        colorGeneratorOverlay
-            .setAttribute(
-                "aria-hidden",
-                "false"
-            );
+        colorGeneratorOverlay.setAttribute(
+            "aria-hidden",
+            "false"
+        );
 
         drawColorWheel();
     }
@@ -1149,15 +1056,12 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        colorGeneratorOverlay
-            .classList
-            .remove("show");
+        colorGeneratorOverlay.classList.remove("show");
 
-        colorGeneratorOverlay
-            .setAttribute(
-                "aria-hidden",
-                "true"
-            );
+        colorGeneratorOverlay.setAttribute(
+            "aria-hidden",
+            "true"
+        );
     }
 
 
@@ -1181,7 +1085,6 @@ document.addEventListener("DOMContentLoaded", () => {
             colorResult.textContent =
                 "Choosing a color…";
         }
-
 
         const startRotation =
             colorRotation;
@@ -1249,7 +1152,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             if (colorResult) {
-
                 colorResult.textContent =
                     `${selected.emoji} ${selected.name} cover`;
             }
@@ -1262,9 +1164,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* ==========================================
-       GENRE WHEEL
-       ========================================== */
+    /* GENRE */
 
     function drawGenreWheel() {
 
@@ -1329,7 +1229,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     "rgba(67, 50, 75, 0.18)";
 
                 genreCtx.lineWidth = 2;
-
                 genreCtx.stroke();
 
 
@@ -1345,14 +1244,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     slice / 2
                 );
 
-                genreCtx.textAlign =
-                    "right";
+                genreCtx.textAlign = "right";
+                genreCtx.textBaseline = "middle";
 
-                genreCtx.textBaseline =
-                    "middle";
-
-                genreCtx.fillStyle =
-                    "#3f3048";
+                genreCtx.fillStyle = "#3f3048";
 
                 genreCtx.font =
                     "800 16px -apple-system, BlinkMacSystemFont, sans-serif";
@@ -1419,15 +1314,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 "Ready to spin 🎭";
         }
 
-        genreGeneratorOverlay
-            .classList
-            .add("show");
+        genreGeneratorOverlay.classList.add("show");
 
-        genreGeneratorOverlay
-            .setAttribute(
-                "aria-hidden",
-                "false"
-            );
+        genreGeneratorOverlay.setAttribute(
+            "aria-hidden",
+            "false"
+        );
 
         drawGenreWheel();
     }
@@ -1439,15 +1331,12 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        genreGeneratorOverlay
-            .classList
-            .remove("show");
+        genreGeneratorOverlay.classList.remove("show");
 
-        genreGeneratorOverlay
-            .setAttribute(
-                "aria-hidden",
-                "true"
-            );
+        genreGeneratorOverlay.setAttribute(
+            "aria-hidden",
+            "true"
+        );
     }
 
 
@@ -1471,7 +1360,6 @@ document.addEventListener("DOMContentLoaded", () => {
             genreResult.textContent =
                 "Choosing a genre…";
         }
-
 
         const startRotation =
             genreRotation;
@@ -1551,9 +1439,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* ==========================================
-       TROPE WHEEL
-       ========================================== */
+    /* TROPE */
 
     function drawTropeWheel() {
 
@@ -1618,7 +1504,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     "rgba(67, 50, 75, 0.18)";
 
                 tropeCtx.lineWidth = 2;
-
                 tropeCtx.stroke();
 
 
@@ -1634,14 +1519,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     slice / 2
                 );
 
-                tropeCtx.textAlign =
-                    "right";
+                tropeCtx.textAlign = "right";
+                tropeCtx.textBaseline = "middle";
 
-                tropeCtx.textBaseline =
-                    "middle";
-
-                tropeCtx.fillStyle =
-                    "#3f3048";
+                tropeCtx.fillStyle = "#3f3048";
 
                 tropeCtx.font =
                     "800 14px -apple-system, BlinkMacSystemFont, sans-serif";
@@ -1708,15 +1589,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 "Ready to spin 💘";
         }
 
-        tropeGeneratorOverlay
-            .classList
-            .add("show");
+        tropeGeneratorOverlay.classList.add("show");
 
-        tropeGeneratorOverlay
-            .setAttribute(
-                "aria-hidden",
-                "false"
-            );
+        tropeGeneratorOverlay.setAttribute(
+            "aria-hidden",
+            "false"
+        );
 
         drawTropeWheel();
     }
@@ -1728,15 +1606,12 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        tropeGeneratorOverlay
-            .classList
-            .remove("show");
+        tropeGeneratorOverlay.classList.remove("show");
 
-        tropeGeneratorOverlay
-            .setAttribute(
-                "aria-hidden",
-                "true"
-            );
+        tropeGeneratorOverlay.setAttribute(
+            "aria-hidden",
+            "true"
+        );
     }
 
 
@@ -1760,7 +1635,6 @@ document.addEventListener("DOMContentLoaded", () => {
             tropeResult.textContent =
                 "Choosing a trope…";
         }
-
 
         const startRotation =
             tropeRotation;
@@ -1840,9 +1714,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* ==========================================
-       LETTER WHEEL
-       ========================================== */
+    /* LETTER */
 
     function drawLetterWheel() {
 
@@ -1907,7 +1779,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     "rgba(67, 50, 75, 0.18)";
 
                 letterCtx.lineWidth = 2;
-
                 letterCtx.stroke();
 
 
@@ -1923,14 +1794,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     slice / 2
                 );
 
-                letterCtx.textAlign =
-                    "right";
+                letterCtx.textAlign = "right";
+                letterCtx.textBaseline = "middle";
 
-                letterCtx.textBaseline =
-                    "middle";
-
-                letterCtx.fillStyle =
-                    "#3f3048";
+                letterCtx.fillStyle = "#3f3048";
 
                 letterCtx.font =
                     "900 17px -apple-system, BlinkMacSystemFont, sans-serif";
@@ -1997,15 +1864,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 "Ready to spin 🔤";
         }
 
-        letterGeneratorOverlay
-            .classList
-            .add("show");
+        letterGeneratorOverlay.classList.add("show");
 
-        letterGeneratorOverlay
-            .setAttribute(
-                "aria-hidden",
-                "false"
-            );
+        letterGeneratorOverlay.setAttribute(
+            "aria-hidden",
+            "false"
+        );
 
         drawLetterWheel();
     }
@@ -2017,15 +1881,12 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        letterGeneratorOverlay
-            .classList
-            .remove("show");
+        letterGeneratorOverlay.classList.remove("show");
 
-        letterGeneratorOverlay
-            .setAttribute(
-                "aria-hidden",
-                "true"
-            );
+        letterGeneratorOverlay.setAttribute(
+            "aria-hidden",
+            "true"
+        );
     }
 
 
@@ -2049,7 +1910,6 @@ document.addEventListener("DOMContentLoaded", () => {
             letterResult.textContent =
                 "Choosing a letter…";
         }
-
 
         const startRotation =
             letterRotation;
@@ -2129,9 +1989,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* ==========================================
-       EVENTS
-       ========================================== */
+    /* EVENTS */
 
     if (spinButton) {
         spinButton.addEventListener(
@@ -2139,35 +1997,6 @@ document.addEventListener("DOMContentLoaded", () => {
             spin
         );
     }
-
-    if (testColorButton) {
-        testColorButton.addEventListener(
-            "click",
-            openColorGenerator
-        );
-    }
-
-    if (testGenreButton) {
-        testGenreButton.addEventListener(
-            "click",
-            openGenreGenerator
-        );
-    }
-
-    if (testTropeButton) {
-        testTropeButton.addEventListener(
-            "click",
-            openTropeGenerator
-        );
-    }
-
-    if (testLetterButton) {
-        testLetterButton.addEventListener(
-            "click",
-            openLetterGenerator
-        );
-    }
-
 
     if (spinColorButton) {
         spinColorButton.addEventListener(
@@ -2252,9 +2081,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* ==========================================
-       CLICK OUTSIDE
-       ========================================== */
+    /* CLICK OUTSIDE */
 
     if (resultOverlay) {
 
@@ -2262,7 +2089,10 @@ document.addEventListener("DOMContentLoaded", () => {
             "click",
             event => {
 
-                if (event.target === resultOverlay) {
+                if (
+                    event.target ===
+                    resultOverlay
+                ) {
                     closeResult();
                 }
             }
@@ -2305,7 +2135,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         event.target ===
                         item.overlay
                     ) {
-
                         item.close();
                     }
                 }
@@ -2314,9 +2143,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 
-    /* ==========================================
-       ESC
-       ========================================== */
+    /* ESC */
 
     document.addEventListener(
         "keydown",
@@ -2326,18 +2153,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-
             if (
                 letterGeneratorOverlay &&
                 letterGeneratorOverlay
                     .classList
                     .contains("show")
             ) {
-
                 closeLetterGenerator();
                 return;
             }
-
 
             if (
                 tropeGeneratorOverlay &&
@@ -2345,11 +2169,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     .classList
                     .contains("show")
             ) {
-
                 closeTropeGenerator();
                 return;
             }
-
 
             if (
                 genreGeneratorOverlay &&
@@ -2357,11 +2179,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     .classList
                     .contains("show")
             ) {
-
                 closeGenreGenerator();
                 return;
             }
-
 
             if (
                 colorGeneratorOverlay &&
@@ -2369,11 +2189,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     .classList
                     .contains("show")
             ) {
-
                 closeColorGenerator();
                 return;
             }
-
 
             if (
                 resultOverlay &&
@@ -2381,16 +2199,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     .classList
                     .contains("show")
             ) {
-
                 closeResult();
             }
         }
     );
 
 
-    /* ==========================================
-       START
-       ========================================== */
+    /* START */
 
     drawWheel();
     drawColorWheel();
