@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TBR Spinner</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background: #17151d;
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+
+.app {
+    width: 100%;
+    max-width: 900px;
+    padding: 30px 20px 60px;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 5px;
+    font-size: 42px;
+}
+
+.subtitle {
+    color: #aaa;
+    margin-bottom: 30px;
+}
+
+.wheel-area {
+    position: relative;
+    width: min(620px, 90vw);
+    aspect-ratio: 1;
+    margin: 0 auto;
+}
+
+.pointer {
+    position: absolute;
+    z-index: 5;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-top: 38px solid #ffffff;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.spin-button {
+    margin-top: 30px;
+    border: none;
+    border-radius: 50px;
+    padding: 16px 50px;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    background: #d8a7ff;
+    color: #1b1220;
+}
+
+.spin-button:hover {
+    transform: scale(1.04);
+}
+
+.spin-button:disabled {
+    opacity: .5;
+    cursor: default;
+}
+
+.result {
+    min-height: 90px;
+    margin: 30px auto 0;
+    max-width: 600px;
+    padding: 20px;
+    border-radius: 18px;
+    background: #24212d;
+}
+
+.result-small {
+    color: #aaa;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.result-text {
+    margin-top: 8px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 32px;
+    }
+
+    .result-text {
+        font-size: 23px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <h1>📚 TBR Spinner</h1>
+
+    <div class="subtitle">
+        Let the wheel choose your next read
+    </div>
+
+    <div class="wheel-area">
+
+        <div class="pointer"></div>
+
+        <canvas id="wheel" width="700" height="700"></canvas>
+
+    </div>
+
+    <button class="spin-button" id="spinButton">
+        SPIN
+    </button>
+
+    <div class="result">
+
+        <div class="result-small">
+            Your prompt
+        </div>
+
+        <div class="result-text" id="resultText">
+            Spin the wheel!
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const prompts = [
+    "Free pick",
+    "Grönt omslag",
+    "Romance",
+    "Snurra igen",
+    "2 word title",
+    "Thriller",
+    "Blommigt omslag",
+    "Fantasy",
+    "Jämnt antal sidor",
+    "Vampyrer",
+    "400–500 sidor",
+    "Sci-fi",
+    "Romantasy",
+    "Dark romance",
+    "Före år 2020",
+    "No people on the cover",
+    "TBR jar/lista",
+    "Fake dating",
+    "Seasonal read",
+    "3 word title",
+    "Duology",
+    "Varulvar",
+    "Under 300 sidor",
+    "Högt betyg på Goodreads",
+    "Partner pick",
+    "Age gap",
+    "🎨 Color generator",
+    "Publicerad i år",
+    "Vitt omslag",
+    "Dual POV",
+    "Reptil på omslaget",
+    "Djur på omslaget",
+    "Udda antal sidor",
+    "Blått omslag",
+    "500+ sidor",
+    "People on the cover",
+    "Rött omslag",
+    "Enemies to lovers",
+    "Längsta boken på din TBR",
+    "1 word title",
+    "Grumpy / sunshine",
+    "Rosa omslag",
+    "Drakar",
+    "6+ word title",
+    "New author",
+    "Gult omslag",
+    "Orange omslag",
+    "4 word title",
+    "Plats i titel",
+    "Deckare",
+    "Svart omslag",
+    "Nummer i titel",
+    "Cowboyromance",
+    "Under 200 sidor",
+    "Nyast på din TBR",
+    "Trollkarlar / häxor",
+    "Dystopi",
+    "Kortaste boken på din TBR",
+    "Movie / TV adaptation",
+    "🎭 Genre generator",
+    "Morally grey character",
+    "Sports romance",
+    "Första bokstaven i ditt namn",
+    "Skräck",
+    "Prinsar / prinsessor",
+    "Första boken i en serie",
+    "Fortsätt en serie",
+    "Natur på omslaget",
+    "Slow burn",
+    "🛍️ KÖP EN NY BOK",
+    "Första boken du ser",
+    "200–300 sidor",
+    "Korta kapitel",
+    "Fairies",
+    "Standalone",
+    "Vatten på omslaget",
+    "Fågel på omslaget",
+    "Någon annan väljer",
+    "Klassiker",
+    "En kvinna på omslaget",
+    "Fairytale retelling",
+    "Fordon på omslaget",
+    "Man på omslaget",
+    "Publicerad mellan 2010–2020",
+    "Namn i titel",
+    "Mermaids",
+    "💘 Trope generator",
+    "Färg i titeln",
+    "Single POV",
+    "Sista ordet i ditt senaste SMS",
+    "Grått omslag",
+    "War setting",
+    "Sorglig bok",
+    "Eld på omslaget",
+    "Självbiografi",
+
+    /* Extra prompts */
+
+    "First person POV",
+    "Third person POV",
+    "5 word title",
+    "Lila omslag",
+    "Beige / brunt omslag",
+    "Måne eller stjärnor på omslaget",
+    "Byggnad på omslaget",
+    "Mat eller dryck på omslaget",
+    "Illustrerat omslag",
+    "300–400 sidor",
+    "600+ sidor",
+    "Äldre än dig",
+    "Glömd TBR-bok",
+    "Physical TBR",
+    "Kindle / eBook",
+    "BookTok made me do it",
+    "Debut novel",
+    "Historical fiction",
+    "Psychological thriller",
+    "Murder mystery",
+    "Small town romance",
+    "Second chance romance",
+    "Friends to lovers",
+    "Forced proximity",
+    "Marriage of convenience",
+    "Found family",
+    "He falls first",
+    "Only one bed",
+    "Royal romance",
+    "Mafia romance",
+    "Serial killer",
+    "Unreliable narrator",
+    "Missing person",
+    "Witches",
+    "Ghosts",
+    "Demons",
+    "Gods / goddesses",
+    "Magic school",
+    "Zombies",
+    "Time travel",
+    "Snowy setting",
+    "Beach setting",
+    "Forest setting",
+    "Small town setting",
+    "Road trip",
+    "Island setting",
+    "Family secrets",
+    "Antihero",
+    "Villain POV",
+    "Morally grey love interest",
+
+    "🔤 Letter generator",
+    "🔢 Number generator",
+
+    "🎲 Blind pick",
+
+    "🔥 SPIN TWICE"
+];
+
+const canvas = document.getElementById("wheel");
+const ctx = canvas.getContext("2d");
+
+const spinButton = document.getElementById("spinButton");
+const resultText = document.getElementById("resultText");
+
+const colors = [
+    "#8f79c6",
+    "#c681a7",
+    "#668fb3",
+    "#b58969",
+    "#718d78",
+    "#b16d70",
+    "#8075a8",
+    "#b39a62"
+];
+
+let rotation = 0;
+let spinning = false;
+
+function drawWheel() {
+
+    const size = canvas.width;
+    const center = size / 2;
+    const radius = center - 10;
+
+    ctx.clearRect(0, 0, size, size);
+
+    const slice = (Math.PI * 2) / prompts.length;
+
+    prompts.forEach((prompt, index) => {
+
+        const start = index * slice + rotation;
+        const end = start + slice;
+
+        ctx.beginPath();
+        ctx.moveTo(center, center);
+        ctx.arc(center, center, radius, start, end);
+        ctx.closePath();
+
+        ctx.fillStyle = colors[index % colors.length];
+        ctx.fill();
+
+        ctx.strokeStyle = "#17151d";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        /*
+        Because there are LOTS of prompts, displaying every
+        complete prompt on the wheel would be unreadable.
+
+        We therefore show a number on each slice.
+        The selected prompt appears underneath the wheel.
+        */
+
+        ctx.save();
+
+        ctx.translate(center, center);
+        ctx.rotate(start + slice / 2);
+
+        ctx.textAlign = "right";
+        ctx.fillStyle = "white";
+        ctx.font = "bold 11px Arial";
+
+        ctx.fillText(index + 1, radius - 12, 4);
+
+        ctx.restore();
+    });
+
+    /* center circle */
+
+    ctx.beginPath();
+    ctx.arc(center, center, 65, 0, Math.PI * 2);
+
+    ctx.fillStyle = "#17151d";
+    ctx.fill();
+
+    ctx.strokeStyle = "#ffffff";
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    ctx.fillStyle = "white";
+    ctx.font = "bold 18px Arial";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    ctx.fillText("TBR", center, center);
+
+}
+
+function normalizeAngle(angle) {
+
+    const full = Math.PI * 2;
+
+    angle = angle % full;
+
+    if (angle < 0) {
+        angle += full;
+    }
+
+    return angle;
+}
+
+function getSelectedPrompt() {
+
+    const slice = (Math.PI * 2) / prompts.length;
+
+    /*
+    Pointer is at the top of the wheel.
+    Canvas angle at the top = 3π/2.
+    */
+
+    const pointerAngle = Math.PI * 1.5;
+
+    const wheelAngle = normalizeAngle(pointerAngle - rotation);
+
+    const index = Math.floor(wheelAngle / slice) % prompts.length;
+
+    return prompts[index];
+}
+
+function spin() {
+
+    if (spinning) return;
+
+    spinning = true;
+
+    spinButton.disabled = true;
+
+    resultText.textContent = "Spinning...";
+
+    const startRotation = rotation;
+
+    const extraTurns = 6 + Math.random() * 4;
+    const randomLanding = Math.random() * Math.PI * 2;
+
+    const totalRotation =
+        extraTurns * Math.PI * 2 +
+        randomLanding;
+
+    const duration = 4200;
+
+    const startTime = performance.now();
+
+    function animate(currentTime) {
+
+        const elapsed = currentTime - startTime;
+
+        const progress = Math.min(elapsed / duration, 1);
+
+        /*
+        Ease-out cubic makes the wheel start quickly
+        and slowly come to a stop.
+        */
+
+        const eased =
+            1 - Math.pow(1 - progress, 3);
+
+        rotation =
+            startRotation +
+            totalRotation * eased;
+
+        drawWheel();
+
+        if (progress < 1) {
+
+            requestAnimationFrame(animate);
+
+        } else {
+
+            rotation = normalizeAngle(rotation);
+
+            drawWheel();
+
+            const selected = getSelectedPrompt();
+
+            resultText.textContent = selected;
+
+            spinning = false;
+
+            spinButton.disabled = false;
+        }
+    }
+
+    requestAnimationFrame(animate);
+}
+
+spinButton.addEventListener("click", spin);
+
+drawWheel();
+
+</script>
+
+</body>
+</html>
