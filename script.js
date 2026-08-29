@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ==========================================
-       COLOR CHOICES
+       COLOR GENERATOR DATA
        ========================================== */
 
     const colorChoices = [
@@ -189,15 +189,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ==========================================
+       GENRE GENERATOR DATA
+       ========================================== */
+
+    const genreChoices = [
+        "Romance",
+        "Fantasy",
+        "Thriller",
+        "Mystery",
+        "Horror",
+        "Romantasy",
+        "Sci-fi",
+        "Historical fiction",
+        "Contemporary",
+        "Dark romance",
+        "Dystopian",
+        "Crime"
+    ];
+
+
+    /* ==========================================
        ELEMENTS
        ========================================== */
 
-    const canvas = document.getElementById("wheel");
-    const spinButton = document.getElementById("spinButton");
-    const spinningMessage = document.getElementById("spinningMessage");
+    const canvas =
+        document.getElementById("wheel");
+
+    const spinButton =
+        document.getElementById("spinButton");
+
+    const spinningMessage =
+        document.getElementById("spinningMessage");
+
 
     const testColorButton =
         document.getElementById("testColorButton");
+
+    const testGenreButton =
+        document.getElementById("testGenreButton");
+
 
     const resultOverlay =
         document.getElementById("resultOverlay");
@@ -221,6 +251,8 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("spinAgain");
 
 
+    /* COLOR */
+
     const colorGeneratorOverlay =
         document.getElementById("colorGeneratorOverlay");
 
@@ -237,8 +269,26 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("closeColorGenerator");
 
 
+    /* GENRE */
+
+    const genreGeneratorOverlay =
+        document.getElementById("genreGeneratorOverlay");
+
+    const genreCanvas =
+        document.getElementById("genreWheel");
+
+    const genreResult =
+        document.getElementById("genreResult");
+
+    const spinGenreButton =
+        document.getElementById("spinGenreButton");
+
+    const closeGenreGeneratorButton =
+        document.getElementById("closeGenreGenerator");
+
+
     /* ==========================================
-       SAFETY CHECK
+       CANVAS CONTEXTS
        ========================================== */
 
     if (!canvas) {
@@ -246,17 +296,22 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    const ctx = canvas.getContext("2d");
+    const ctx =
+        canvas.getContext("2d");
 
-    let colorCtx = null;
+    const colorCtx =
+        colorCanvas
+            ? colorCanvas.getContext("2d")
+            : null;
 
-    if (colorCanvas) {
-        colorCtx = colorCanvas.getContext("2d");
-    }
+    const genreCtx =
+        genreCanvas
+            ? genreCanvas.getContext("2d")
+            : null;
 
 
     /* ==========================================
-       COLORS / STATE
+       COLORS
        ========================================== */
 
     const wheelColors = [
@@ -272,11 +327,34 @@ document.addEventListener("DOMContentLoaded", () => {
         "#c8efd8"
     ];
 
+    const genreWheelColors = [
+        "#f6a9cf",
+        "#c7b6ff",
+        "#a9d6f5",
+        "#b9e6d1",
+        "#ffc6a8",
+        "#ffe5a6",
+        "#ffbdd5",
+        "#d8c8ff",
+        "#bfe7ff",
+        "#c8efd8",
+        "#f3b9e4",
+        "#b8d7ef"
+    ];
+
+
+    /* ==========================================
+       STATE
+       ========================================== */
+
     let rotation = 0;
     let spinning = false;
 
     let colorRotation = 0;
     let colorSpinning = false;
+
+    let genreRotation = 0;
+    let genreSpinning = false;
 
 
     /* ==========================================
@@ -285,9 +363,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function normalizeAngle(angle) {
 
-        const fullCircle = Math.PI * 2;
+        const fullCircle =
+            Math.PI * 2;
 
-        angle = angle % fullCircle;
+        angle =
+            angle % fullCircle;
 
         if (angle < 0) {
             angle += fullCircle;
@@ -303,83 +383,108 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function drawWheel() {
 
-        const size = canvas.width;
-        const center = size / 2;
-        const radius = center - 12;
+        const size =
+            canvas.width;
 
-        ctx.clearRect(0, 0, size, size);
+        const center =
+            size / 2;
+
+        const radius =
+            center - 12;
+
+        ctx.clearRect(
+            0,
+            0,
+            size,
+            size
+        );
 
         const slice =
-            (Math.PI * 2) / prompts.length;
+            (Math.PI * 2) /
+            prompts.length;
 
 
-        prompts.forEach((prompt, index) => {
+        prompts.forEach(
+            (prompt, index) => {
 
-            const start =
-                index * slice + rotation;
+                const start =
+                    index * slice +
+                    rotation;
 
-            const end =
-                start + slice;
-
-
-            ctx.beginPath();
-
-            ctx.moveTo(center, center);
-
-            ctx.arc(
-                center,
-                center,
-                radius,
-                start,
-                end
-            );
-
-            ctx.closePath();
-
-            ctx.fillStyle =
-                wheelColors[
-                    index % wheelColors.length
-                ];
-
-            ctx.fill();
+                const end =
+                    start + slice;
 
 
-            ctx.strokeStyle =
-                "rgba(74, 55, 91, 0.18)";
+                ctx.beginPath();
 
-            ctx.lineWidth = 1;
+                ctx.moveTo(
+                    center,
+                    center
+                );
 
-            ctx.stroke();
+                ctx.arc(
+                    center,
+                    center,
+                    radius,
+                    start,
+                    end
+                );
 
+                ctx.closePath();
 
-            ctx.save();
+                ctx.fillStyle =
+                    wheelColors[
+                        index %
+                        wheelColors.length
+                    ];
 
-            ctx.translate(center, center);
-
-            ctx.rotate(
-                start + slice / 2
-            );
-
-            ctx.textAlign = "right";
-            ctx.textBaseline = "middle";
-
-            ctx.fillStyle =
-                "rgba(73, 51, 84, 0.9)";
-
-            ctx.font =
-                "800 11px -apple-system, BlinkMacSystemFont, sans-serif";
-
-            ctx.fillText(
-                index + 1,
-                radius - 14,
-                0
-            );
-
-            ctx.restore();
-        });
+                ctx.fill();
 
 
-        /* Outer ring */
+                ctx.strokeStyle =
+                    "rgba(74, 55, 91, 0.18)";
+
+                ctx.lineWidth = 1;
+
+                ctx.stroke();
+
+
+                ctx.save();
+
+                ctx.translate(
+                    center,
+                    center
+                );
+
+                ctx.rotate(
+                    start +
+                    slice / 2
+                );
+
+                ctx.textAlign =
+                    "right";
+
+                ctx.textBaseline =
+                    "middle";
+
+                ctx.fillStyle =
+                    "rgba(73, 51, 84, 0.9)";
+
+                ctx.font =
+                    "800 11px -apple-system, BlinkMacSystemFont, sans-serif";
+
+                ctx.fillText(
+                    index + 1,
+                    radius - 14,
+                    0
+                );
+
+                ctx.restore();
+            }
+        );
+
+
+        /* OUTER RING */
 
         ctx.beginPath();
 
@@ -399,7 +504,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ctx.stroke();
 
 
-        /* Center */
+        /* CENTER */
 
         ctx.beginPath();
 
@@ -411,18 +516,27 @@ document.addEventListener("DOMContentLoaded", () => {
             Math.PI * 2
         );
 
-        ctx.fillStyle = "#fffafd";
+        ctx.fillStyle =
+            "#fffafd";
+
         ctx.fill();
 
-        ctx.strokeStyle = "#b998e5";
+        ctx.strokeStyle =
+            "#b998e5";
+
         ctx.lineWidth = 4;
+
         ctx.stroke();
 
 
-        ctx.fillStyle = "#6f4da2";
+        ctx.fillStyle =
+            "#6f4da2";
 
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
+        ctx.textAlign =
+            "center";
+
+        ctx.textBaseline =
+            "middle";
 
         ctx.font =
             "900 21px -apple-system, BlinkMacSystemFont, sans-serif";
@@ -449,34 +563,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ==========================================
-       GET MAIN RESULT
+       MAIN RESULT
        ========================================== */
 
     function getSelectedPrompt() {
 
         const slice =
-            (Math.PI * 2) / prompts.length;
+            (Math.PI * 2) /
+            prompts.length;
 
         const pointerAngle =
             Math.PI * 1.5;
 
         const wheelAngle =
             normalizeAngle(
-                pointerAngle - rotation
+                pointerAngle -
+                rotation
             );
 
         const index =
             Math.floor(
-                wheelAngle / slice
-            ) % prompts.length;
+                wheelAngle /
+                slice
+            ) %
+            prompts.length;
 
         return prompts[index];
     }
 
-
-    /* ==========================================
-       RESULT POPUP
-       ========================================== */
 
     function closeResult() {
 
@@ -484,12 +598,15 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        resultOverlay.classList.remove("show");
+        resultOverlay
+            .classList
+            .remove("show");
 
-        resultOverlay.setAttribute(
-            "aria-hidden",
-            "true"
-        );
+        resultOverlay
+            .setAttribute(
+                "aria-hidden",
+                "true"
+            );
     }
 
 
@@ -505,15 +622,18 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (resultIcon) {
-            resultIcon.textContent = icon;
+            resultIcon.textContent =
+                icon;
         }
 
         if (resultLabel) {
-            resultLabel.textContent = label;
+            resultLabel.textContent =
+                label;
         }
 
         if (resultText) {
-            resultText.textContent = prompt;
+            resultText.textContent =
+                prompt;
         }
 
         if (resultDescription) {
@@ -521,12 +641,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 description;
         }
 
-        resultOverlay.classList.add("show");
+        resultOverlay
+            .classList
+            .add("show");
 
-        resultOverlay.setAttribute(
-            "aria-hidden",
-            "false"
-        );
+        resultOverlay
+            .setAttribute(
+                "aria-hidden",
+                "false"
+            );
     }
 
 
@@ -536,27 +659,46 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function handleSelectedPrompt(prompt) {
 
-        if (prompt === "🎨 Color generator") {
+        if (
+            prompt ===
+            "🎨 Color generator"
+        ) {
 
             openColorGenerator();
             return;
         }
 
 
-        if (prompt === "Snurra igen") {
+        if (
+            prompt ===
+            "🎭 Genre generator"
+        ) {
+
+            openGenreGenerator();
+            return;
+        }
+
+
+        if (
+            prompt ===
+            "Snurra igen"
+        ) {
 
             showResult(
                 "Snurra igen!",
                 "🔄",
                 "CHAOS!",
-                "The wheel has spoken. You don't get off that easily."
+                "The wheel has spoken. Spin again."
             );
 
             return;
         }
 
 
-        if (prompt === "🔥 SPIN TWICE") {
+        if (
+            prompt ===
+            "🔥 SPIN TWICE"
+        ) {
 
             showResult(
                 "SPIN TWICE",
@@ -574,7 +716,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ==========================================
-       SPIN MAIN WHEEL
+       MAIN SPIN
        ========================================== */
 
     function spin() {
@@ -592,12 +734,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (spinningMessage) {
+
             spinningMessage.textContent =
                 "The wheel is choosing your fate…";
         }
 
 
-        const startRotation = rotation;
+        const startRotation =
+            rotation;
 
         const extraTurns =
             7 + Math.random() * 4;
@@ -613,7 +757,8 @@ document.addEventListener("DOMContentLoaded", () => {
             2 +
             randomLanding;
 
-        const duration = 4500;
+        const duration =
+            4500;
 
         const startTime =
             performance.now();
@@ -622,11 +767,13 @@ document.addEventListener("DOMContentLoaded", () => {
         function animate(currentTime) {
 
             const elapsed =
-                currentTime - startTime;
+                currentTime -
+                startTime;
 
             const progress =
                 Math.min(
-                    elapsed / duration,
+                    elapsed /
+                    duration,
                     1
                 );
 
@@ -656,7 +803,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             rotation =
-                normalizeAngle(rotation);
+                normalizeAngle(
+                    rotation
+                );
 
             drawWheel();
 
@@ -664,6 +813,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 getSelectedPrompt();
 
             spinning = false;
+
 
             if (spinButton) {
                 spinButton.disabled = false;
@@ -696,7 +846,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function drawColorWheel() {
 
-        if (!colorCanvas || !colorCtx) {
+        if (
+            !colorCanvas ||
+            !colorCtx
+        ) {
             return;
         }
 
@@ -715,7 +868,6 @@ document.addEventListener("DOMContentLoaded", () => {
             size,
             size
         );
-
 
         const slice =
             (Math.PI * 2) /
@@ -764,8 +916,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 colorCtx.stroke();
 
 
-                /* TEXT */
-
                 colorCtx.save();
 
                 colorCtx.translate(
@@ -803,83 +953,14 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
-        /* OUTER RING */
-
-        colorCtx.beginPath();
-
-        colorCtx.arc(
+        drawMiniWheelCenter(
+            colorCtx,
             center,
-            center,
-            radius,
-            0,
-            Math.PI * 2
-        );
-
-        colorCtx.strokeStyle =
-            "#8e6bb8";
-
-        colorCtx.lineWidth = 5;
-
-        colorCtx.stroke();
-
-
-        /* CENTER */
-
-        colorCtx.beginPath();
-
-        colorCtx.arc(
-            center,
-            center,
-            58,
-            0,
-            Math.PI * 2
-        );
-
-        colorCtx.fillStyle =
-            "#fffafd";
-
-        colorCtx.fill();
-
-        colorCtx.strokeStyle =
-            "#a78bd0";
-
-        colorCtx.lineWidth = 4;
-
-        colorCtx.stroke();
-
-
-        colorCtx.fillStyle =
-            "#6f4da2";
-
-        colorCtx.textAlign =
-            "center";
-
-        colorCtx.textBaseline =
-            "middle";
-
-        colorCtx.font =
-            "900 15px -apple-system, BlinkMacSystemFont, sans-serif";
-
-        colorCtx.fillText(
             "COLOR",
-            center,
-            center - 6
-        );
-
-        colorCtx.font =
-            "700 10px -apple-system, BlinkMacSystemFont, sans-serif";
-
-        colorCtx.fillText(
-            "WHEEL",
-            center,
-            center + 13
+            "WHEEL"
         );
     }
 
-
-    /* ==========================================
-       GET COLOR RESULT
-       ========================================== */
 
     function getSelectedColor() {
 
@@ -898,31 +979,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const index =
             Math.floor(
-                wheelAngle / slice
-            ) % colorChoices.length;
+                wheelAngle /
+                slice
+            ) %
+            colorChoices.length;
 
         return colorChoices[index];
     }
 
 
-    /* ==========================================
-       OPEN COLOR GENERATOR
-       ========================================== */
-
     function openColorGenerator() {
 
         closeResult();
+        closeGenreGenerator();
 
         if (!colorGeneratorOverlay) {
-
-            console.error(
-                "Color generator overlay not found."
-            );
-
             return;
         }
 
         if (colorResult) {
+
             colorResult.textContent =
                 "Ready to spin 🎨";
         }
@@ -959,10 +1035,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* ==========================================
-       SPIN COLOR WHEEL
-       ========================================== */
-
     function spinColorWheel() {
 
         if (
@@ -973,7 +1045,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-
         colorSpinning = true;
 
         if (spinColorButton) {
@@ -981,6 +1052,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (colorResult) {
+
             colorResult.textContent =
                 "Choosing a color…";
         }
@@ -1003,7 +1075,8 @@ document.addEventListener("DOMContentLoaded", () => {
             2 +
             randomLanding;
 
-        const duration = 3500;
+        const duration =
+            3500;
 
         const startTime =
             performance.now();
@@ -1017,7 +1090,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const progress =
                 Math.min(
-                    elapsed / duration,
+                    elapsed /
+                    duration,
                     1
                 );
 
@@ -1057,12 +1131,15 @@ document.addEventListener("DOMContentLoaded", () => {
             const selected =
                 getSelectedColor();
 
-
             colorSpinning = false;
 
+
             if (spinColorButton) {
-                spinColorButton.disabled = false;
+
+                spinColorButton.disabled =
+                    false;
             }
+
 
             if (colorResult) {
 
@@ -1074,6 +1151,392 @@ document.addEventListener("DOMContentLoaded", () => {
 
         requestAnimationFrame(
             animate
+        );
+    }
+
+
+    /* ==========================================
+       GENRE WHEEL
+       ========================================== */
+
+    function drawGenreWheel() {
+
+        if (
+            !genreCanvas ||
+            !genreCtx
+        ) {
+            return;
+        }
+
+        const size =
+            genreCanvas.width;
+
+        const center =
+            size / 2;
+
+        const radius =
+            center - 10;
+
+        genreCtx.clearRect(
+            0,
+            0,
+            size,
+            size
+        );
+
+        const slice =
+            (Math.PI * 2) /
+            genreChoices.length;
+
+
+        genreChoices.forEach(
+            (genre, index) => {
+
+                const start =
+                    index * slice +
+                    genreRotation;
+
+                const end =
+                    start + slice;
+
+
+                genreCtx.beginPath();
+
+                genreCtx.moveTo(
+                    center,
+                    center
+                );
+
+                genreCtx.arc(
+                    center,
+                    center,
+                    radius,
+                    start,
+                    end
+                );
+
+                genreCtx.closePath();
+
+                genreCtx.fillStyle =
+                    genreWheelColors[
+                        index %
+                        genreWheelColors.length
+                    ];
+
+                genreCtx.fill();
+
+
+                genreCtx.strokeStyle =
+                    "rgba(67, 50, 75, 0.18)";
+
+                genreCtx.lineWidth = 2;
+
+                genreCtx.stroke();
+
+
+                /* GENRE TEXT */
+
+                genreCtx.save();
+
+                genreCtx.translate(
+                    center,
+                    center
+                );
+
+                genreCtx.rotate(
+                    start +
+                    slice / 2
+                );
+
+                genreCtx.textAlign =
+                    "right";
+
+                genreCtx.textBaseline =
+                    "middle";
+
+                genreCtx.fillStyle =
+                    "#3f3048";
+
+                genreCtx.font =
+                    "800 16px -apple-system, BlinkMacSystemFont, sans-serif";
+
+                genreCtx.fillText(
+                    genre,
+                    radius - 22,
+                    0
+                );
+
+                genreCtx.restore();
+            }
+        );
+
+
+        drawMiniWheelCenter(
+            genreCtx,
+            center,
+            "GENRE",
+            "WHEEL"
+        );
+    }
+
+
+    function getSelectedGenre() {
+
+        const slice =
+            (Math.PI * 2) /
+            genreChoices.length;
+
+        const pointerAngle =
+            Math.PI * 1.5;
+
+        const wheelAngle =
+            normalizeAngle(
+                pointerAngle -
+                genreRotation
+            );
+
+        const index =
+            Math.floor(
+                wheelAngle /
+                slice
+            ) %
+            genreChoices.length;
+
+        return genreChoices[index];
+    }
+
+
+    function openGenreGenerator() {
+
+        closeResult();
+        closeColorGenerator();
+
+        if (!genreGeneratorOverlay) {
+            return;
+        }
+
+        if (genreResult) {
+
+            genreResult.textContent =
+                "Ready to spin 🎭";
+        }
+
+        genreGeneratorOverlay
+            .classList
+            .add("show");
+
+        genreGeneratorOverlay
+            .setAttribute(
+                "aria-hidden",
+                "false"
+            );
+
+        drawGenreWheel();
+    }
+
+
+    function closeGenreGenerator() {
+
+        if (!genreGeneratorOverlay) {
+            return;
+        }
+
+        genreGeneratorOverlay
+            .classList
+            .remove("show");
+
+        genreGeneratorOverlay
+            .setAttribute(
+                "aria-hidden",
+                "true"
+            );
+    }
+
+
+    function spinGenreWheel() {
+
+        if (
+            genreSpinning ||
+            !genreCanvas ||
+            !genreCtx
+        ) {
+            return;
+        }
+
+
+        genreSpinning = true;
+
+
+        if (spinGenreButton) {
+
+            spinGenreButton.disabled =
+                true;
+        }
+
+
+        if (genreResult) {
+
+            genreResult.textContent =
+                "Choosing a genre…";
+        }
+
+
+        const startRotation =
+            genreRotation;
+
+        const extraTurns =
+            6 + Math.random() * 4;
+
+        const randomLanding =
+            Math.random() *
+            Math.PI *
+            2;
+
+        const totalRotation =
+            extraTurns *
+            Math.PI *
+            2 +
+            randomLanding;
+
+        const duration =
+            3500;
+
+        const startTime =
+            performance.now();
+
+
+        function animate(currentTime) {
+
+            const elapsed =
+                currentTime -
+                startTime;
+
+            const progress =
+                Math.min(
+                    elapsed /
+                    duration,
+                    1
+                );
+
+            const eased =
+                1 -
+                Math.pow(
+                    1 - progress,
+                    4
+                );
+
+            genreRotation =
+                startRotation +
+                totalRotation *
+                eased;
+
+            drawGenreWheel();
+
+
+            if (progress < 1) {
+
+                requestAnimationFrame(
+                    animate
+                );
+
+                return;
+            }
+
+
+            genreRotation =
+                normalizeAngle(
+                    genreRotation
+                );
+
+            drawGenreWheel();
+
+
+            const selected =
+                getSelectedGenre();
+
+            genreSpinning = false;
+
+
+            if (spinGenreButton) {
+
+                spinGenreButton.disabled =
+                    false;
+            }
+
+
+            if (genreResult) {
+
+                genreResult.textContent =
+                    `📚 ${selected}`;
+            }
+        }
+
+
+        requestAnimationFrame(
+            animate
+        );
+    }
+
+
+    /* ==========================================
+       MINI WHEEL CENTER
+       ========================================== */
+
+    function drawMiniWheelCenter(
+        context,
+        center,
+        topText,
+        bottomText
+    ) {
+
+        context.beginPath();
+
+        context.arc(
+            center,
+            center,
+            58,
+            0,
+            Math.PI * 2
+        );
+
+        context.fillStyle =
+            "#fffafd";
+
+        context.fill();
+
+        context.strokeStyle =
+            "#a78bd0";
+
+        context.lineWidth = 4;
+
+        context.stroke();
+
+
+        context.fillStyle =
+            "#6f4da2";
+
+        context.textAlign =
+            "center";
+
+        context.textBaseline =
+            "middle";
+
+        context.font =
+            "900 15px -apple-system, BlinkMacSystemFont, sans-serif";
+
+        context.fillText(
+            topText,
+            center,
+            center - 6
+        );
+
+        context.font =
+            "700 10px -apple-system, BlinkMacSystemFont, sans-serif";
+
+        context.fillText(
+            bottomText,
+            center,
+            center + 13
         );
     }
 
@@ -1100,6 +1563,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+    if (testGenreButton) {
+
+        testGenreButton.addEventListener(
+            "click",
+            openGenreGenerator
+        );
+    }
+
+
     if (spinColorButton) {
 
         spinColorButton.addEventListener(
@@ -1109,12 +1581,32 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+    if (spinGenreButton) {
+
+        spinGenreButton.addEventListener(
+            "click",
+            spinGenreWheel
+        );
+    }
+
+
     if (closeColorGeneratorButton) {
 
-        closeColorGeneratorButton.addEventListener(
-            "click",
-            closeColorGenerator
-        );
+        closeColorGeneratorButton
+            .addEventListener(
+                "click",
+                closeColorGenerator
+            );
+    }
+
+
+    if (closeGenreGeneratorButton) {
+
+        closeGenreGeneratorButton
+            .addEventListener(
+                "click",
+                closeGenreGenerator
+            );
     }
 
 
@@ -1144,6 +1636,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+    /* ==========================================
+       CLICK OUTSIDE
+       ========================================== */
+
     if (resultOverlay) {
 
         resultOverlay.addEventListener(
@@ -1164,29 +1660,69 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (colorGeneratorOverlay) {
 
-        colorGeneratorOverlay.addEventListener(
-            "click",
-            event => {
+        colorGeneratorOverlay
+            .addEventListener(
+                "click",
+                event => {
 
-                if (
-                    event.target ===
-                    colorGeneratorOverlay
-                ) {
+                    if (
+                        event.target ===
+                        colorGeneratorOverlay
+                    ) {
 
-                    closeColorGenerator();
+                        closeColorGenerator();
+                    }
                 }
-            }
-        );
+            );
     }
 
+
+    if (genreGeneratorOverlay) {
+
+        genreGeneratorOverlay
+            .addEventListener(
+                "click",
+                event => {
+
+                    if (
+                        event.target ===
+                        genreGeneratorOverlay
+                    ) {
+
+                        closeGenreGenerator();
+                    }
+                }
+            );
+    }
+
+
+    /* ==========================================
+       ESC
+       ========================================== */
 
     document.addEventListener(
         "keydown",
         event => {
 
-            if (event.key !== "Escape") {
+            if (
+                event.key !==
+                "Escape"
+            ) {
                 return;
             }
+
+
+            if (
+                genreGeneratorOverlay &&
+                genreGeneratorOverlay
+                    .classList
+                    .contains("show")
+            ) {
+
+                closeGenreGenerator();
+                return;
+            }
+
 
             if (
                 colorGeneratorOverlay &&
@@ -1198,6 +1734,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 closeColorGenerator();
                 return;
             }
+
 
             if (
                 resultOverlay &&
@@ -1218,5 +1755,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     drawWheel();
     drawColorWheel();
+    drawGenreWheel();
 
 });
