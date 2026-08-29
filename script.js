@@ -209,6 +209,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ==========================================
+       TROPE GENERATOR DATA
+       ========================================== */
+
+    const tropeChoices = [
+        "Enemies to lovers",
+        "Fake dating",
+        "Friends to lovers",
+        "Slow burn",
+        "Forced proximity",
+        "Grumpy / sunshine",
+        "Second chance",
+        "Marriage of convenience",
+        "Only one bed",
+        "He falls first",
+        "Found family",
+        "Age gap"
+    ];
+
+
+    /* ==========================================
        ELEMENTS
        ========================================== */
 
@@ -227,6 +247,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const testGenreButton =
         document.getElementById("testGenreButton");
+
+    const testTropeButton =
+        document.getElementById("testTropeButton");
 
 
     const resultOverlay =
@@ -287,6 +310,24 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("closeGenreGenerator");
 
 
+    /* TROPE */
+
+    const tropeGeneratorOverlay =
+        document.getElementById("tropeGeneratorOverlay");
+
+    const tropeCanvas =
+        document.getElementById("tropeWheel");
+
+    const tropeResult =
+        document.getElementById("tropeResult");
+
+    const spinTropeButton =
+        document.getElementById("spinTropeButton");
+
+    const closeTropeGeneratorButton =
+        document.getElementById("closeTropeGenerator");
+
+
     /* ==========================================
        CANVAS CONTEXTS
        ========================================== */
@@ -309,6 +350,11 @@ document.addEventListener("DOMContentLoaded", () => {
             ? genreCanvas.getContext("2d")
             : null;
 
+    const tropeCtx =
+        tropeCanvas
+            ? tropeCanvas.getContext("2d")
+            : null;
+
 
     /* ==========================================
        COLORS
@@ -327,7 +373,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "#c8efd8"
     ];
 
-    const genreWheelColors = [
+    const miniWheelColors = [
         "#f6a9cf",
         "#c7b6ff",
         "#a9d6f5",
@@ -356,6 +402,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let genreRotation = 0;
     let genreSpinning = false;
 
+    let tropeRotation = 0;
+    let tropeSpinning = false;
+
 
     /* ==========================================
        HELPERS
@@ -374,6 +423,70 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         return angle;
+    }
+
+
+    /* ==========================================
+       MINI WHEEL CENTER
+       ========================================== */
+
+    function drawMiniWheelCenter(
+        context,
+        center,
+        topText,
+        bottomText
+    ) {
+
+        context.beginPath();
+
+        context.arc(
+            center,
+            center,
+            58,
+            0,
+            Math.PI * 2
+        );
+
+        context.fillStyle =
+            "#fffafd";
+
+        context.fill();
+
+        context.strokeStyle =
+            "#a78bd0";
+
+        context.lineWidth = 4;
+
+        context.stroke();
+
+
+        context.fillStyle =
+            "#6f4da2";
+
+        context.textAlign =
+            "center";
+
+        context.textBaseline =
+            "middle";
+
+        context.font =
+            "900 15px -apple-system, BlinkMacSystemFont, sans-serif";
+
+        context.fillText(
+            topText,
+            center,
+            center - 6
+        );
+
+
+        context.font =
+            "700 10px -apple-system, BlinkMacSystemFont, sans-serif";
+
+        context.fillText(
+            bottomText,
+            center,
+            center + 13
+        );
     }
 
 
@@ -484,8 +597,6 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
-        /* OUTER RING */
-
         ctx.beginPath();
 
         ctx.arc(
@@ -503,8 +614,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         ctx.stroke();
 
-
-        /* CENTER */
 
         ctx.beginPath();
 
@@ -659,30 +768,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function handleSelectedPrompt(prompt) {
 
-        if (
-            prompt ===
-            "🎨 Color generator"
-        ) {
-
+        if (prompt === "🎨 Color generator") {
             openColorGenerator();
             return;
         }
 
-
-        if (
-            prompt ===
-            "🎭 Genre generator"
-        ) {
-
+        if (prompt === "🎭 Genre generator") {
             openGenreGenerator();
             return;
         }
 
+        if (prompt === "💘 Trope generator") {
+            openTropeGenerator();
+            return;
+        }
 
-        if (
-            prompt ===
-            "Snurra igen"
-        ) {
+        if (prompt === "Snurra igen") {
 
             showResult(
                 "Snurra igen!",
@@ -694,11 +795,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-
-        if (
-            prompt ===
-            "🔥 SPIN TWICE"
-        ) {
+        if (prompt === "🔥 SPIN TWICE") {
 
             showResult(
                 "SPIN TWICE",
@@ -709,7 +806,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             return;
         }
-
 
         showResult(prompt);
     }
@@ -734,7 +830,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (spinningMessage) {
-
             spinningMessage.textContent =
                 "The wheel is choosing your fate…";
         }
@@ -803,9 +898,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             rotation =
-                normalizeAngle(
-                    rotation
-                );
+                normalizeAngle(rotation);
 
             drawWheel();
 
@@ -846,10 +939,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function drawColorWheel() {
 
-        if (
-            !colorCanvas ||
-            !colorCtx
-        ) {
+        if (!colorCanvas || !colorCtx) {
             return;
         }
 
@@ -992,13 +1082,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         closeResult();
         closeGenreGenerator();
+        closeTropeGenerator();
 
         if (!colorGeneratorOverlay) {
             return;
         }
 
         if (colorResult) {
-
             colorResult.textContent =
                 "Ready to spin 🎨";
         }
@@ -1052,7 +1142,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (colorResult) {
-
             colorResult.textContent =
                 "Choosing a color…";
         }
@@ -1127,7 +1216,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             drawColorWheel();
 
-
             const selected =
                 getSelectedColor();
 
@@ -1135,14 +1223,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             if (spinColorButton) {
-
-                spinColorButton.disabled =
-                    false;
+                spinColorButton.disabled = false;
             }
 
-
             if (colorResult) {
-
                 colorResult.textContent =
                     `${selected.emoji} ${selected.name} cover`;
             }
@@ -1161,10 +1245,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function drawGenreWheel() {
 
-        if (
-            !genreCanvas ||
-            !genreCtx
-        ) {
+        if (!genreCanvas || !genreCtx) {
             return;
         }
 
@@ -1218,9 +1299,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 genreCtx.closePath();
 
                 genreCtx.fillStyle =
-                    genreWheelColors[
+                    miniWheelColors[
                         index %
-                        genreWheelColors.length
+                        miniWheelColors.length
                     ];
 
                 genreCtx.fill();
@@ -1233,8 +1314,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 genreCtx.stroke();
 
-
-                /* GENRE TEXT */
 
                 genreCtx.save();
 
@@ -1310,13 +1389,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         closeResult();
         closeColorGenerator();
+        closeTropeGenerator();
 
         if (!genreGeneratorOverlay) {
             return;
         }
 
         if (genreResult) {
-
             genreResult.textContent =
                 "Ready to spin 🎭";
         }
@@ -1363,19 +1442,13 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-
         genreSpinning = true;
 
-
         if (spinGenreButton) {
-
-            spinGenreButton.disabled =
-                true;
+            spinGenreButton.disabled = true;
         }
 
-
         if (genreResult) {
-
             genreResult.textContent =
                 "Choosing a genre…";
         }
@@ -1450,7 +1523,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             drawGenreWheel();
 
-
             const selected =
                 getSelectedGenre();
 
@@ -1458,14 +1530,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             if (spinGenreButton) {
-
-                spinGenreButton.disabled =
-                    false;
+                spinGenreButton.disabled = false;
             }
 
-
             if (genreResult) {
-
                 genreResult.textContent =
                     `📚 ${selected}`;
             }
@@ -1479,64 +1547,308 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ==========================================
-       MINI WHEEL CENTER
+       TROPE WHEEL
        ========================================== */
 
-    function drawMiniWheelCenter(
-        context,
-        center,
-        topText,
-        bottomText
-    ) {
+    function drawTropeWheel() {
 
-        context.beginPath();
+        if (!tropeCanvas || !tropeCtx) {
+            return;
+        }
 
-        context.arc(
-            center,
-            center,
-            58,
+        const size =
+            tropeCanvas.width;
+
+        const center =
+            size / 2;
+
+        const radius =
+            center - 10;
+
+        tropeCtx.clearRect(
             0,
-            Math.PI * 2
+            0,
+            size,
+            size
         );
 
-        context.fillStyle =
-            "#fffafd";
-
-        context.fill();
-
-        context.strokeStyle =
-            "#a78bd0";
-
-        context.lineWidth = 4;
-
-        context.stroke();
+        const slice =
+            (Math.PI * 2) /
+            tropeChoices.length;
 
 
-        context.fillStyle =
-            "#6f4da2";
+        tropeChoices.forEach(
+            (trope, index) => {
 
-        context.textAlign =
-            "center";
+                const start =
+                    index * slice +
+                    tropeRotation;
 
-        context.textBaseline =
-            "middle";
+                const end =
+                    start + slice;
 
-        context.font =
-            "900 15px -apple-system, BlinkMacSystemFont, sans-serif";
 
-        context.fillText(
-            topText,
-            center,
-            center - 6
+                tropeCtx.beginPath();
+
+                tropeCtx.moveTo(
+                    center,
+                    center
+                );
+
+                tropeCtx.arc(
+                    center,
+                    center,
+                    radius,
+                    start,
+                    end
+                );
+
+                tropeCtx.closePath();
+
+                tropeCtx.fillStyle =
+                    miniWheelColors[
+                        index %
+                        miniWheelColors.length
+                    ];
+
+                tropeCtx.fill();
+
+
+                tropeCtx.strokeStyle =
+                    "rgba(67, 50, 75, 0.18)";
+
+                tropeCtx.lineWidth = 2;
+
+                tropeCtx.stroke();
+
+
+                tropeCtx.save();
+
+                tropeCtx.translate(
+                    center,
+                    center
+                );
+
+                tropeCtx.rotate(
+                    start +
+                    slice / 2
+                );
+
+                tropeCtx.textAlign =
+                    "right";
+
+                tropeCtx.textBaseline =
+                    "middle";
+
+                tropeCtx.fillStyle =
+                    "#3f3048";
+
+                tropeCtx.font =
+                    "800 14px -apple-system, BlinkMacSystemFont, sans-serif";
+
+                tropeCtx.fillText(
+                    trope,
+                    radius - 20,
+                    0
+                );
+
+                tropeCtx.restore();
+            }
         );
 
-        context.font =
-            "700 10px -apple-system, BlinkMacSystemFont, sans-serif";
 
-        context.fillText(
-            bottomText,
+        drawMiniWheelCenter(
+            tropeCtx,
             center,
-            center + 13
+            "TROPE",
+            "WHEEL"
+        );
+    }
+
+
+    function getSelectedTrope() {
+
+        const slice =
+            (Math.PI * 2) /
+            tropeChoices.length;
+
+        const pointerAngle =
+            Math.PI * 1.5;
+
+        const wheelAngle =
+            normalizeAngle(
+                pointerAngle -
+                tropeRotation
+            );
+
+        const index =
+            Math.floor(
+                wheelAngle /
+                slice
+            ) %
+            tropeChoices.length;
+
+        return tropeChoices[index];
+    }
+
+
+    function openTropeGenerator() {
+
+        closeResult();
+        closeColorGenerator();
+        closeGenreGenerator();
+
+        if (!tropeGeneratorOverlay) {
+            return;
+        }
+
+        if (tropeResult) {
+            tropeResult.textContent =
+                "Ready to spin 💘";
+        }
+
+        tropeGeneratorOverlay
+            .classList
+            .add("show");
+
+        tropeGeneratorOverlay
+            .setAttribute(
+                "aria-hidden",
+                "false"
+            );
+
+        drawTropeWheel();
+    }
+
+
+    function closeTropeGenerator() {
+
+        if (!tropeGeneratorOverlay) {
+            return;
+        }
+
+        tropeGeneratorOverlay
+            .classList
+            .remove("show");
+
+        tropeGeneratorOverlay
+            .setAttribute(
+                "aria-hidden",
+                "true"
+            );
+    }
+
+
+    function spinTropeWheel() {
+
+        if (
+            tropeSpinning ||
+            !tropeCanvas ||
+            !tropeCtx
+        ) {
+            return;
+        }
+
+        tropeSpinning = true;
+
+        if (spinTropeButton) {
+            spinTropeButton.disabled = true;
+        }
+
+        if (tropeResult) {
+            tropeResult.textContent =
+                "Choosing a trope…";
+        }
+
+
+        const startRotation =
+            tropeRotation;
+
+        const extraTurns =
+            6 + Math.random() * 4;
+
+        const randomLanding =
+            Math.random() *
+            Math.PI *
+            2;
+
+        const totalRotation =
+            extraTurns *
+            Math.PI *
+            2 +
+            randomLanding;
+
+        const duration =
+            3500;
+
+        const startTime =
+            performance.now();
+
+
+        function animate(currentTime) {
+
+            const elapsed =
+                currentTime -
+                startTime;
+
+            const progress =
+                Math.min(
+                    elapsed /
+                    duration,
+                    1
+                );
+
+            const eased =
+                1 -
+                Math.pow(
+                    1 - progress,
+                    4
+                );
+
+            tropeRotation =
+                startRotation +
+                totalRotation *
+                eased;
+
+            drawTropeWheel();
+
+
+            if (progress < 1) {
+
+                requestAnimationFrame(
+                    animate
+                );
+
+                return;
+            }
+
+
+            tropeRotation =
+                normalizeAngle(
+                    tropeRotation
+                );
+
+            drawTropeWheel();
+
+            const selected =
+                getSelectedTrope();
+
+            tropeSpinning = false;
+
+
+            if (spinTropeButton) {
+                spinTropeButton.disabled = false;
+            }
+
+            if (tropeResult) {
+                tropeResult.textContent =
+                    `💘 ${selected}`;
+            }
+        }
+
+
+        requestAnimationFrame(
+            animate
         );
     }
 
@@ -1546,7 +1858,6 @@ document.addEventListener("DOMContentLoaded", () => {
        ========================================== */
 
     if (spinButton) {
-
         spinButton.addEventListener(
             "click",
             spin
@@ -1555,7 +1866,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     if (testColorButton) {
-
         testColorButton.addEventListener(
             "click",
             openColorGenerator
@@ -1564,7 +1874,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     if (testGenreButton) {
-
         testGenreButton.addEventListener(
             "click",
             openGenreGenerator
@@ -1572,8 +1881,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    if (spinColorButton) {
+    if (testTropeButton) {
+        testTropeButton.addEventListener(
+            "click",
+            openTropeGenerator
+        );
+    }
 
+
+    if (spinColorButton) {
         spinColorButton.addEventListener(
             "click",
             spinColorWheel
@@ -1582,7 +1898,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     if (spinGenreButton) {
-
         spinGenreButton.addEventListener(
             "click",
             spinGenreWheel
@@ -1590,28 +1905,39 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    if (closeColorGeneratorButton) {
+    if (spinTropeButton) {
+        spinTropeButton.addEventListener(
+            "click",
+            spinTropeWheel
+        );
+    }
 
-        closeColorGeneratorButton
-            .addEventListener(
-                "click",
-                closeColorGenerator
-            );
+
+    if (closeColorGeneratorButton) {
+        closeColorGeneratorButton.addEventListener(
+            "click",
+            closeColorGenerator
+        );
     }
 
 
     if (closeGenreGeneratorButton) {
+        closeGenreGeneratorButton.addEventListener(
+            "click",
+            closeGenreGenerator
+        );
+    }
 
-        closeGenreGeneratorButton
-            .addEventListener(
-                "click",
-                closeGenreGenerator
-            );
+
+    if (closeTropeGeneratorButton) {
+        closeTropeGeneratorButton.addEventListener(
+            "click",
+            closeTropeGenerator
+        );
     }
 
 
     if (closeResultButton) {
-
         closeResultButton.addEventListener(
             "click",
             closeResult
@@ -1646,11 +1972,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "click",
             event => {
 
-                if (
-                    event.target ===
-                    resultOverlay
-                ) {
-
+                if (event.target === resultOverlay) {
                     closeResult();
                 }
             }
@@ -1660,39 +1982,52 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (colorGeneratorOverlay) {
 
-        colorGeneratorOverlay
-            .addEventListener(
-                "click",
-                event => {
+        colorGeneratorOverlay.addEventListener(
+            "click",
+            event => {
 
-                    if (
-                        event.target ===
-                        colorGeneratorOverlay
-                    ) {
-
-                        closeColorGenerator();
-                    }
+                if (
+                    event.target ===
+                    colorGeneratorOverlay
+                ) {
+                    closeColorGenerator();
                 }
-            );
+            }
+        );
     }
 
 
     if (genreGeneratorOverlay) {
 
-        genreGeneratorOverlay
-            .addEventListener(
-                "click",
-                event => {
+        genreGeneratorOverlay.addEventListener(
+            "click",
+            event => {
 
-                    if (
-                        event.target ===
-                        genreGeneratorOverlay
-                    ) {
-
-                        closeGenreGenerator();
-                    }
+                if (
+                    event.target ===
+                    genreGeneratorOverlay
+                ) {
+                    closeGenreGenerator();
                 }
-            );
+            }
+        );
+    }
+
+
+    if (tropeGeneratorOverlay) {
+
+        tropeGeneratorOverlay.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target ===
+                    tropeGeneratorOverlay
+                ) {
+                    closeTropeGenerator();
+                }
+            }
+        );
     }
 
 
@@ -1704,13 +2039,19 @@ document.addEventListener("DOMContentLoaded", () => {
         "keydown",
         event => {
 
-            if (
-                event.key !==
-                "Escape"
-            ) {
+            if (event.key !== "Escape") {
                 return;
             }
 
+            if (
+                tropeGeneratorOverlay &&
+                tropeGeneratorOverlay
+                    .classList
+                    .contains("show")
+            ) {
+                closeTropeGenerator();
+                return;
+            }
 
             if (
                 genreGeneratorOverlay &&
@@ -1718,11 +2059,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     .classList
                     .contains("show")
             ) {
-
                 closeGenreGenerator();
                 return;
             }
-
 
             if (
                 colorGeneratorOverlay &&
@@ -1730,11 +2069,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     .classList
                     .contains("show")
             ) {
-
                 closeColorGenerator();
                 return;
             }
-
 
             if (
                 resultOverlay &&
@@ -1742,7 +2079,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     .classList
                     .contains("show")
             ) {
-
                 closeResult();
             }
         }
@@ -1756,5 +2092,6 @@ document.addEventListener("DOMContentLoaded", () => {
     drawWheel();
     drawColorWheel();
     drawGenreWheel();
+    drawTropeWheel();
 
 });
