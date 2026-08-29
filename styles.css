@@ -3,18 +3,26 @@
 }
 
 :root {
-    --background: #15131b;
-    --surface: #211e29;
-    --surface-light: #2b2735;
-    --text: #ffffff;
-    --muted: #aaa4b5;
+    --bg-1: #fff7fb;
+    --bg-2: #f6efff;
+    --bg-3: #eef8ff;
 
-    --pink: #d99bc1;
-    --purple: #ae8ee5;
-    --blue: #7da4c8;
-    --green: #83a78d;
-    --peach: #d69c7e;
-    --gold: #c4a45d;
+    --text: #2c2333;
+    --muted: #7e7188;
+
+    --card: rgba(255, 255, 255, 0.82);
+    --card-strong: #ffffff;
+
+    --pink: #f6a9cf;
+    --rose: #ffbdd5;
+    --lavender: #c7b6ff;
+    --purple: #ad95e8;
+    --blue: #a9d6f5;
+    --mint: #b9e6d1;
+    --peach: #ffc6a8;
+    --yellow: #ffe5a6;
+
+    --shadow: 0 18px 45px rgba(95, 67, 120, 0.16);
 }
 
 html {
@@ -24,21 +32,23 @@ html {
 body {
     margin: 0;
     min-height: 100vh;
-    background:
-        radial-gradient(circle at top, #292234 0%, #19161f 42%, #121017 100%);
-
-    color: var(--text);
 
     font-family:
         -apple-system,
         BlinkMacSystemFont,
         "Segoe UI",
         sans-serif;
+
+    color: var(--text);
+
+    background:
+        radial-gradient(circle at 15% 15%, rgba(255, 192, 222, 0.45), transparent 30%),
+        radial-gradient(circle at 85% 20%, rgba(192, 215, 255, 0.5), transparent 30%),
+        radial-gradient(circle at 50% 85%, rgba(216, 193, 255, 0.5), transparent 32%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2) 50%, var(--bg-3));
 }
 
-/* -------------------------------- */
-/* MAIN APP                         */
-/* -------------------------------- */
+/* APP */
 
 .app {
     width: 100%;
@@ -49,44 +59,52 @@ body {
     align-items: center;
 
     padding:
-        max(20px, env(safe-area-inset-top))
+        max(24px, env(safe-area-inset-top))
         18px
-        max(35px, env(safe-area-inset-bottom));
+        max(34px, env(safe-area-inset-bottom));
 }
 
-/* -------------------------------- */
-/* HEADER                           */
-/* -------------------------------- */
+/* HEADER */
 
 .header {
     text-align: center;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
 }
 
 .header h1 {
     margin: 0;
 
-    font-size: clamp(30px, 5vw, 48px);
-    font-weight: 800;
+    font-size: clamp(32px, 5vw, 50px);
+    font-weight: 900;
+    letter-spacing: -1.5px;
 
-    letter-spacing: -1px;
+    background:
+        linear-gradient(
+            135deg,
+            #7f62c8,
+            #c06cb4,
+            #e991b4
+        );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
 .header p {
-    margin: 7px 0 0;
+    margin: 8px 0 0;
 
     color: var(--muted);
     font-size: clamp(14px, 2vw, 17px);
+    font-weight: 500;
 }
 
-/* -------------------------------- */
-/* WHEEL                            */
-/* -------------------------------- */
+/* WHEEL AREA */
 
 .wheel-container {
     position: relative;
 
-    width: min(72vh, 620px, 92vw);
+    width: min(68vh, 600px, 90vw);
     aspect-ratio: 1;
 
     display: flex;
@@ -99,18 +117,18 @@ body {
 #wheel {
     width: 100%;
     height: 100%;
-
     display: block;
 
-    filter: drop-shadow(0 16px 30px rgba(0, 0, 0, 0.3));
+    filter:
+        drop-shadow(0 18px 28px rgba(100, 72, 130, 0.18));
 }
 
-/* pointer */
+/* POINTER */
 
 .pointer {
     position: absolute;
 
-    top: -5px;
+    top: -4px;
     left: 50%;
 
     transform: translateX(-50%);
@@ -122,51 +140,53 @@ body {
 
     border-left: 18px solid transparent;
     border-right: 18px solid transparent;
-    border-top: 38px solid #ffffff;
+    border-top: 38px solid #7f62c8;
 
-    filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.35));
+    filter:
+        drop-shadow(0 4px 4px rgba(95, 60, 120, 0.18));
 }
 
-/* -------------------------------- */
-/* BUTTONS                          */
-/* -------------------------------- */
+/* MAIN BUTTON */
 
 .spin-button {
-    min-width: 180px;
+    min-width: 190px;
 
-    padding: 15px 38px;
+    padding: 15px 40px;
 
-    border: 0;
+    border: none;
     border-radius: 999px;
 
     background:
         linear-gradient(
             135deg,
-            #d69be8,
-            #b68df2
+            #f4a5cf,
+            #c3adff
         );
 
-    color: #211729;
+    color: #33243e;
 
     font-size: 20px;
-    font-weight: 800;
-    letter-spacing: 1px;
+    font-weight: 900;
+    letter-spacing: 0.6px;
 
     cursor: pointer;
 
     box-shadow:
-        0 10px 26px rgba(174, 142, 229, 0.25);
+        0 12px 30px rgba(180, 118, 185, 0.25);
 
     transition:
         transform 0.18s ease,
-        box-shadow 0.18s ease;
+        box-shadow 0.18s ease,
+        filter 0.18s ease;
 }
 
 .spin-button:hover {
-    transform: translateY(-2px) scale(1.02);
+    transform: translateY(-2px) scale(1.025);
 
     box-shadow:
-        0 14px 32px rgba(174, 142, 229, 0.34);
+        0 16px 36px rgba(180, 118, 185, 0.32);
+
+    filter: brightness(1.02);
 }
 
 .spin-button:active {
@@ -174,30 +194,33 @@ body {
 }
 
 .spin-button:disabled {
-    opacity: 0.55;
+    opacity: 0.6;
     cursor: default;
     transform: none;
 }
 
-/* -------------------------------- */
-/* LITTLE INFO TEXT                 */
-/* -------------------------------- */
+/* TEXT UNDER BUTTON */
+
+.spinning-message {
+    min-height: 24px;
+    margin-top: 13px;
+
+    color: #80689b;
+    font-size: 14px;
+    font-weight: 600;
+}
 
 .helper-text {
-    margin-top: 14px;
+    margin-top: 8px;
 
     color: var(--muted);
-
     font-size: 13px;
 }
 
-/* -------------------------------- */
-/* RESULT POPUP                     */
-/* -------------------------------- */
+/* RESULT OVERLAY */
 
 .result-overlay {
     position: fixed;
-
     inset: 0;
 
     z-index: 100;
@@ -208,10 +231,11 @@ body {
 
     padding: 20px;
 
-    background: rgba(8, 7, 11, 0.72);
+    background:
+        rgba(68, 51, 80, 0.24);
 
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 
     opacity: 0;
     visibility: hidden;
@@ -226,42 +250,53 @@ body {
     visibility: visible;
 }
 
+/* RESULT CARD */
+
 .result-card {
     position: relative;
 
-    width: min(440px, 92vw);
+    width: min(450px, 92vw);
 
     padding: 34px 28px 28px;
 
     background:
         linear-gradient(
             145deg,
-            #2c2835,
-            #211e29
+            rgba(255,255,255,0.97),
+            rgba(249,244,255,0.96)
         );
 
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 28px;
+    border:
+        1px solid rgba(144, 112, 180, 0.15);
+
+    border-radius: 30px;
 
     text-align: center;
 
     box-shadow:
-        0 25px 80px rgba(0, 0, 0, 0.5);
+        0 28px 70px rgba(87, 58, 110, 0.23);
 
-    transform: translateY(15px) scale(0.96);
+    transform:
+        translateY(14px)
+        scale(0.96);
 
-    transition: transform 0.25s ease;
+    transition:
+        transform 0.25s ease;
 }
 
 .result-overlay.show .result-card {
-    transform: translateY(0) scale(1);
+    transform:
+        translateY(0)
+        scale(1);
 }
 
-.result-icon {
-    width: 64px;
-    height: 64px;
+/* RESULT ICON */
 
-    margin: 0 auto 15px;
+.result-icon {
+    width: 70px;
+    height: 70px;
+
+    margin: 0 auto 16px;
 
     display: flex;
     justify-content: center;
@@ -269,88 +304,94 @@ body {
 
     border-radius: 50%;
 
-    background: rgba(214, 155, 232, 0.14);
+    background:
+        linear-gradient(
+            135deg,
+            #ffd8ea,
+            #d9ccff
+        );
 
-    font-size: 32px;
+    font-size: 34px;
+
+    box-shadow:
+        0 8px 20px rgba(140, 100, 165, 0.15);
 }
 
-.result-label {
-    margin-bottom: 9px;
+/* RESULT TEXT */
 
-    color: var(--muted);
+.result-label {
+    margin-bottom: 10px;
+
+    color: #9a7cae;
 
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 2.4px;
 
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 800;
 }
 
 .result-text {
     margin: 0;
 
-    font-size: clamp(25px, 6vw, 36px);
-    line-height: 1.15;
+    color: #32243b;
 
-    font-weight: 800;
+    font-size: clamp(26px, 6vw, 38px);
+    line-height: 1.12;
+    font-weight: 900;
 }
+
+/* RESULT BUTTONS */
 
 .result-actions {
     display: flex;
     gap: 10px;
 
-    margin-top: 27px;
+    margin-top: 28px;
 }
 
 .result-actions button {
     flex: 1;
 
-    min-height: 48px;
+    min-height: 50px;
 
     padding: 12px 15px;
 
     border: none;
-    border-radius: 15px;
+    border-radius: 16px;
 
     font-size: 15px;
-    font-weight: 700;
+    font-weight: 800;
 
     cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        filter 0.15s ease;
+}
+
+.result-actions button:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.02);
 }
 
 .close-button {
-    background: #3a3545;
-    color: white;
+    background: #eee8f2;
+    color: #4b3b55;
 }
 
 .again-button {
     background:
         linear-gradient(
             135deg,
-            #d69be8,
-            #b68df2
+            #f6add0,
+            #c5b1ff
         );
 
-    color: #211729;
+    color: #362540;
 }
 
-/* -------------------------------- */
-/* SPINNING MESSAGE                 */
-/* -------------------------------- */
-
-.spinning-message {
-    min-height: 24px;
-
-    margin-top: 13px;
-
-    color: #d6c6e7;
-
-    font-size: 14px;
-}
-
-/* -------------------------------- */
-/* MOBILE                           */
-/* -------------------------------- */
+/* MOBILE */
 
 @media (max-width: 600px) {
 
@@ -360,12 +401,11 @@ body {
     }
 
     .header {
-        margin-bottom: 14px;
+        margin-bottom: 12px;
     }
 
     .wheel-container {
-        width: min(88vw, 460px);
-        margin-top: 4px;
+        width: min(86vw, 450px);
         margin-bottom: 14px;
     }
 
@@ -377,15 +417,13 @@ body {
 
     .spin-button {
         min-width: 160px;
-
-        padding: 14px 30px;
-
+        padding: 14px 28px;
         font-size: 18px;
     }
 
     .result-card {
         padding: 30px 20px 22px;
-        border-radius: 23px;
+        border-radius: 24px;
     }
 
     .result-actions {
@@ -393,9 +431,7 @@ body {
     }
 }
 
-/* -------------------------------- */
-/* SHORT SCREENS                    */
-/* -------------------------------- */
+/* SMALL HEIGHT SCREENS */
 
 @media (max-height: 750px) and (min-width: 601px) {
 
@@ -416,8 +452,8 @@ body {
     }
 
     .wheel-container {
-        width: min(66vh, 520px);
-        margin-bottom: 9px;
+        width: min(64vh, 500px);
+        margin-bottom: 10px;
     }
 
     .spin-button {
@@ -426,16 +462,13 @@ body {
     }
 }
 
-/* -------------------------------- */
-/* REDUCED MOTION                   */
-/* -------------------------------- */
+/* REDUCED MOTION */
 
 @media (prefers-reduced-motion: reduce) {
 
     *,
     *::before,
     *::after {
-        scroll-behavior: auto !important;
         transition-duration: 0.01ms !important;
     }
 }
