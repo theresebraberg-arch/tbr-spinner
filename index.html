@@ -18,7 +18,7 @@
 
     <link
         rel="stylesheet"
-        href="styles.css?v=3"
+        href="styles.css?v=4"
     >
 </head>
 
@@ -39,6 +39,8 @@
 
         </header>
 
+
+        <!-- MAIN WHEEL -->
 
         <section class="wheel-container">
 
@@ -77,18 +79,35 @@
             Spin the wheel and let fate choose your book ✨
         </div>
 
+
+        <!-- TEMPORARY TEST BUTTONS -->
+
+        <div class="test-buttons">
+
+            <button
+                class="test-button"
+                id="testColorButton"
+                type="button"
+            >
+                TEST COLOR
+            </button>
+
+            <button
+                class="test-button"
+                id="testGenreButton"
+                type="button"
+            >
+                TEST GENRE
+            </button>
+
+        </div>
+
     </main>
 
-<button
-    class="spin-button"
-    id="testColorButton"
-    type="button"
-    style="margin-top: 14px; font-size: 14px; padding: 10px 22px;"
->
-    TEST COLOR GENERATOR
-</button>
-    
-    <!-- RESULT POPUP -->
+
+    <!-- ======================================
+         NORMAL RESULT POPUP
+         ====================================== -->
 
     <div
         class="result-overlay"
@@ -160,7 +179,9 @@
     </div>
 
 
-    <!-- COLOR GENERATOR -->
+    <!-- ======================================
+         COLOR GENERATOR
+         ====================================== -->
 
     <div
         class="generator-overlay"
@@ -190,6 +211,7 @@
                 <div class="generator-icon">
                     🎨
                 </div>
+
 
                 <div>
 
@@ -250,7 +272,100 @@
     </div>
 
 
-    <script src="script.js?v=3"></script>
+    <!-- ======================================
+         GENRE GENERATOR
+         ====================================== -->
+
+    <div
+        class="generator-overlay"
+        id="genreGeneratorOverlay"
+        aria-hidden="true"
+    >
+
+        <div
+            class="generator-card"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="genreGeneratorTitle"
+        >
+
+            <button
+                class="generator-close"
+                id="closeGenreGenerator"
+                type="button"
+                aria-label="Close genre generator"
+            >
+                ×
+            </button>
+
+
+            <div class="generator-heading">
+
+                <div class="generator-icon">
+                    🎭
+                </div>
+
+
+                <div>
+
+                    <div class="generator-kicker">
+                        MINI WHEEL
+                    </div>
+
+                    <h2 id="genreGeneratorTitle">
+                        Genre Generator
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <p class="generator-intro">
+                Spin to choose the genre of your next read.
+            </p>
+
+
+            <div class="mini-wheel-container">
+
+                <div
+                    class="mini-pointer"
+                    aria-hidden="true"
+                ></div>
+
+                <canvas
+                    id="genreWheel"
+                    width="500"
+                    height="500"
+                    aria-label="Genre generator wheel"
+                ></canvas>
+
+            </div>
+
+
+            <div
+                class="generator-result"
+                id="genreResult"
+                aria-live="polite"
+            >
+                Ready to spin 🎭
+            </div>
+
+
+            <button
+                class="generator-spin-button"
+                id="spinGenreButton"
+                type="button"
+            >
+                SPIN GENRE
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <script src="script.js?v=4"></script>
 
 </body>
 
