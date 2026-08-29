@@ -16,10 +16,9 @@
 
     <title>TBR Spinner</title>
 
-    <!-- CSS -->
     <link
         rel="stylesheet"
-        href="styles.css?v=2"
+        href="styles.css?v=3"
     >
 </head>
 
@@ -27,8 +26,6 @@
 <body>
 
     <main class="app">
-
-        <!-- HEADER -->
 
         <header class="header">
 
@@ -42,8 +39,6 @@
 
         </header>
 
-
-        <!-- WHEEL -->
 
         <section class="wheel-container">
 
@@ -62,8 +57,6 @@
         </section>
 
 
-        <!-- SPIN BUTTON -->
-
         <button
             class="spin-button"
             id="spinButton"
@@ -73,16 +66,12 @@
         </button>
 
 
-        <!-- SPINNING MESSAGE -->
-
         <div
             class="spinning-message"
             id="spinningMessage"
             aria-live="polite"
         ></div>
 
-
-        <!-- LITTLE TEXT -->
 
         <div class="helper-text">
             Spin the wheel and let fate choose your book ✨
@@ -91,9 +80,7 @@
     </main>
 
 
-    <!-- ===================================
-         RESULT POPUP
-         =================================== -->
+    <!-- RESULT POPUP -->
 
     <div
         class="result-overlay"
@@ -108,24 +95,22 @@
             aria-labelledby="resultText"
         >
 
-            <!-- ICON -->
-
             <div
                 class="result-icon"
+                id="resultIcon"
                 aria-hidden="true"
             >
                 📖
             </div>
 
 
-            <!-- LABEL -->
-
-            <div class="result-label">
+            <div
+                class="result-label"
+                id="resultLabel"
+            >
                 YOUR PROMPT
             </div>
 
-
-            <!-- RESULT -->
 
             <h2
                 class="result-text"
@@ -135,7 +120,11 @@
             </h2>
 
 
-            <!-- BUTTONS -->
+            <p
+                class="result-description"
+                id="resultDescription"
+            ></p>
+
 
             <div class="result-actions">
 
@@ -163,9 +152,97 @@
     </div>
 
 
-    <!-- JAVASCRIPT -->
+    <!-- COLOR GENERATOR -->
 
-    <script src="script.js?v=2"></script>
+    <div
+        class="generator-overlay"
+        id="colorGeneratorOverlay"
+        aria-hidden="true"
+    >
+
+        <div
+            class="generator-card"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="colorGeneratorTitle"
+        >
+
+            <button
+                class="generator-close"
+                id="closeColorGenerator"
+                type="button"
+                aria-label="Close color generator"
+            >
+                ×
+            </button>
+
+
+            <div class="generator-heading">
+
+                <div class="generator-icon">
+                    🎨
+                </div>
+
+                <div>
+
+                    <div class="generator-kicker">
+                        MINI WHEEL
+                    </div>
+
+                    <h2 id="colorGeneratorTitle">
+                        Color Generator
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <p class="generator-intro">
+                Spin to choose the color your book should have on the cover.
+            </p>
+
+
+            <div class="mini-wheel-container">
+
+                <div
+                    class="mini-pointer"
+                    aria-hidden="true"
+                ></div>
+
+                <canvas
+                    id="colorWheel"
+                    width="500"
+                    height="500"
+                    aria-label="Color generator wheel"
+                ></canvas>
+
+            </div>
+
+
+            <div
+                class="generator-result"
+                id="colorResult"
+                aria-live="polite"
+            >
+                Ready to spin 🎨
+            </div>
+
+
+            <button
+                class="generator-spin-button"
+                id="spinColorButton"
+                type="button"
+            >
+                SPIN COLOR
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <script src="script.js?v=3"></script>
 
 </body>
 
