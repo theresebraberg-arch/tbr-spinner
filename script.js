@@ -161,6 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Morally grey love interest",
 
         "🔤 Letter generator",
+
         "🔢 Number generator",
         "🎲 Blind pick",
 
@@ -169,7 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ==========================================
-       COLOR GENERATOR DATA
+       COLOR DATA
        ========================================== */
 
     const colorChoices = [
@@ -189,7 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ==========================================
-       GENRE GENERATOR DATA
+       GENRE DATA
        ========================================== */
 
     const genreChoices = [
@@ -209,7 +210,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ==========================================
-       TROPE GENERATOR DATA
+       TROPE DATA
        ========================================== */
 
     const tropeChoices = [
@@ -225,6 +226,18 @@ document.addEventListener("DOMContentLoaded", () => {
         "He falls first",
         "Found family",
         "Age gap"
+    ];
+
+
+    /* ==========================================
+       LETTER DATA
+       ========================================== */
+
+    const letterChoices = [
+        "A", "B", "C", "D", "E", "F", "G",
+        "H", "I", "J", "K", "L", "M",
+        "N", "O", "P", "Q", "R", "S",
+        "T", "U", "V", "W", "X", "Y", "Z"
     ];
 
 
@@ -250,6 +263,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const testTropeButton =
         document.getElementById("testTropeButton");
+
+    const testLetterButton =
+        document.getElementById("testLetterButton");
 
 
     const resultOverlay =
@@ -328,6 +344,24 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("closeTropeGenerator");
 
 
+    /* LETTER */
+
+    const letterGeneratorOverlay =
+        document.getElementById("letterGeneratorOverlay");
+
+    const letterCanvas =
+        document.getElementById("letterWheel");
+
+    const letterResult =
+        document.getElementById("letterResult");
+
+    const spinLetterButton =
+        document.getElementById("spinLetterButton");
+
+    const closeLetterGeneratorButton =
+        document.getElementById("closeLetterGenerator");
+
+
     /* ==========================================
        CANVAS CONTEXTS
        ========================================== */
@@ -353,6 +387,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const tropeCtx =
         tropeCanvas
             ? tropeCanvas.getContext("2d")
+            : null;
+
+    const letterCtx =
+        letterCanvas
+            ? letterCanvas.getContext("2d")
             : null;
 
 
@@ -405,6 +444,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let tropeRotation = 0;
     let tropeSpinning = false;
 
+    let letterRotation = 0;
+    let letterSpinning = false;
+
 
     /* ==========================================
        HELPERS
@@ -425,10 +467,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return angle;
     }
 
-
-    /* ==========================================
-       MINI WHEEL CENTER
-       ========================================== */
 
     function drawMiniWheelCenter(
         context,
@@ -491,7 +529,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ==========================================
-       DRAW MAIN WHEEL
+       MAIN WHEEL
        ========================================== */
 
     function drawWheel() {
@@ -671,10 +709,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* ==========================================
-       MAIN RESULT
-       ========================================== */
-
     function getSelectedPrompt() {
 
         const slice =
@@ -700,6 +734,10 @@ document.addEventListener("DOMContentLoaded", () => {
         return prompts[index];
     }
 
+
+    /* ==========================================
+       RESULT POPUP
+       ========================================== */
 
     function closeResult() {
 
@@ -731,18 +769,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (resultIcon) {
-            resultIcon.textContent =
-                icon;
+            resultIcon.textContent = icon;
         }
 
         if (resultLabel) {
-            resultLabel.textContent =
-                label;
+            resultLabel.textContent = label;
         }
 
         if (resultText) {
-            resultText.textContent =
-                prompt;
+            resultText.textContent = prompt;
         }
 
         if (resultDescription) {
@@ -780,6 +815,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (prompt === "💘 Trope generator") {
             openTropeGenerator();
+            return;
+        }
+
+        if (prompt === "🔤 Letter generator") {
+            openLetterGenerator();
             return;
         }
 
@@ -943,14 +983,9 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const size =
-            colorCanvas.width;
-
-        const center =
-            size / 2;
-
-        const radius =
-            center - 10;
+        const size = colorCanvas.width;
+        const center = size / 2;
+        const radius = center - 10;
 
         colorCtx.clearRect(
             0,
@@ -1083,6 +1118,7 @@ document.addEventListener("DOMContentLoaded", () => {
         closeResult();
         closeGenreGenerator();
         closeTropeGenerator();
+        closeLetterGenerator();
 
         if (!colorGeneratorOverlay) {
             return;
@@ -1150,36 +1186,23 @@ document.addEventListener("DOMContentLoaded", () => {
         const startRotation =
             colorRotation;
 
-        const extraTurns =
-            6 + Math.random() * 4;
-
-        const randomLanding =
+        const totalRotation =
+            (6 + Math.random() * 4) *
+            Math.PI *
+            2 +
             Math.random() *
             Math.PI *
             2;
 
-        const totalRotation =
-            extraTurns *
-            Math.PI *
-            2 +
-            randomLanding;
-
-        const duration =
-            3500;
-
-        const startTime =
-            performance.now();
+        const duration = 3500;
+        const startTime = performance.now();
 
 
         function animate(currentTime) {
 
-            const elapsed =
-                currentTime -
-                startTime;
-
             const progress =
                 Math.min(
-                    elapsed /
+                    (currentTime - startTime) /
                     duration,
                     1
                 );
@@ -1221,12 +1244,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
             colorSpinning = false;
 
-
             if (spinColorButton) {
                 spinColorButton.disabled = false;
             }
 
             if (colorResult) {
+
                 colorResult.textContent =
                     `${selected.emoji} ${selected.name} cover`;
             }
@@ -1249,14 +1272,9 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const size =
-            genreCanvas.width;
-
-        const center =
-            size / 2;
-
-        const radius =
-            center - 10;
+        const size = genreCanvas.width;
+        const center = size / 2;
+        const radius = center - 10;
 
         genreCtx.clearRect(
             0,
@@ -1390,6 +1408,7 @@ document.addEventListener("DOMContentLoaded", () => {
         closeResult();
         closeColorGenerator();
         closeTropeGenerator();
+        closeLetterGenerator();
 
         if (!genreGeneratorOverlay) {
             return;
@@ -1457,36 +1476,23 @@ document.addEventListener("DOMContentLoaded", () => {
         const startRotation =
             genreRotation;
 
-        const extraTurns =
-            6 + Math.random() * 4;
-
-        const randomLanding =
+        const totalRotation =
+            (6 + Math.random() * 4) *
+            Math.PI *
+            2 +
             Math.random() *
             Math.PI *
             2;
 
-        const totalRotation =
-            extraTurns *
-            Math.PI *
-            2 +
-            randomLanding;
-
-        const duration =
-            3500;
-
-        const startTime =
-            performance.now();
+        const duration = 3500;
+        const startTime = performance.now();
 
 
         function animate(currentTime) {
 
-            const elapsed =
-                currentTime -
-                startTime;
-
             const progress =
                 Math.min(
-                    elapsed /
+                    (currentTime - startTime) /
                     duration,
                     1
                 );
@@ -1528,7 +1534,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             genreSpinning = false;
 
-
             if (spinGenreButton) {
                 spinGenreButton.disabled = false;
             }
@@ -1556,14 +1561,9 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const size =
-            tropeCanvas.width;
-
-        const center =
-            size / 2;
-
-        const radius =
-            center - 10;
+        const size = tropeCanvas.width;
+        const center = size / 2;
+        const radius = center - 10;
 
         tropeCtx.clearRect(
             0,
@@ -1697,6 +1697,7 @@ document.addEventListener("DOMContentLoaded", () => {
         closeResult();
         closeColorGenerator();
         closeGenreGenerator();
+        closeLetterGenerator();
 
         if (!tropeGeneratorOverlay) {
             return;
@@ -1764,36 +1765,23 @@ document.addEventListener("DOMContentLoaded", () => {
         const startRotation =
             tropeRotation;
 
-        const extraTurns =
-            6 + Math.random() * 4;
-
-        const randomLanding =
+        const totalRotation =
+            (6 + Math.random() * 4) *
+            Math.PI *
+            2 +
             Math.random() *
             Math.PI *
             2;
 
-        const totalRotation =
-            extraTurns *
-            Math.PI *
-            2 +
-            randomLanding;
-
-        const duration =
-            3500;
-
-        const startTime =
-            performance.now();
+        const duration = 3500;
+        const startTime = performance.now();
 
 
         function animate(currentTime) {
 
-            const elapsed =
-                currentTime -
-                startTime;
-
             const progress =
                 Math.min(
-                    elapsed /
+                    (currentTime - startTime) /
                     duration,
                     1
                 );
@@ -1835,7 +1823,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             tropeSpinning = false;
 
-
             if (spinTropeButton) {
                 spinTropeButton.disabled = false;
             }
@@ -1843,6 +1830,295 @@ document.addEventListener("DOMContentLoaded", () => {
             if (tropeResult) {
                 tropeResult.textContent =
                     `💘 ${selected}`;
+            }
+        }
+
+
+        requestAnimationFrame(
+            animate
+        );
+    }
+
+
+    /* ==========================================
+       LETTER WHEEL
+       ========================================== */
+
+    function drawLetterWheel() {
+
+        if (!letterCanvas || !letterCtx) {
+            return;
+        }
+
+        const size = letterCanvas.width;
+        const center = size / 2;
+        const radius = center - 10;
+
+        letterCtx.clearRect(
+            0,
+            0,
+            size,
+            size
+        );
+
+        const slice =
+            (Math.PI * 2) /
+            letterChoices.length;
+
+
+        letterChoices.forEach(
+            (letter, index) => {
+
+                const start =
+                    index * slice +
+                    letterRotation;
+
+                const end =
+                    start + slice;
+
+
+                letterCtx.beginPath();
+
+                letterCtx.moveTo(
+                    center,
+                    center
+                );
+
+                letterCtx.arc(
+                    center,
+                    center,
+                    radius,
+                    start,
+                    end
+                );
+
+                letterCtx.closePath();
+
+                letterCtx.fillStyle =
+                    miniWheelColors[
+                        index %
+                        miniWheelColors.length
+                    ];
+
+                letterCtx.fill();
+
+
+                letterCtx.strokeStyle =
+                    "rgba(67, 50, 75, 0.18)";
+
+                letterCtx.lineWidth = 2;
+
+                letterCtx.stroke();
+
+
+                letterCtx.save();
+
+                letterCtx.translate(
+                    center,
+                    center
+                );
+
+                letterCtx.rotate(
+                    start +
+                    slice / 2
+                );
+
+                letterCtx.textAlign =
+                    "right";
+
+                letterCtx.textBaseline =
+                    "middle";
+
+                letterCtx.fillStyle =
+                    "#3f3048";
+
+                letterCtx.font =
+                    "900 17px -apple-system, BlinkMacSystemFont, sans-serif";
+
+                letterCtx.fillText(
+                    letter,
+                    radius - 20,
+                    0
+                );
+
+                letterCtx.restore();
+            }
+        );
+
+
+        drawMiniWheelCenter(
+            letterCtx,
+            center,
+            "LETTER",
+            "WHEEL"
+        );
+    }
+
+
+    function getSelectedLetter() {
+
+        const slice =
+            (Math.PI * 2) /
+            letterChoices.length;
+
+        const pointerAngle =
+            Math.PI * 1.5;
+
+        const wheelAngle =
+            normalizeAngle(
+                pointerAngle -
+                letterRotation
+            );
+
+        const index =
+            Math.floor(
+                wheelAngle /
+                slice
+            ) %
+            letterChoices.length;
+
+        return letterChoices[index];
+    }
+
+
+    function openLetterGenerator() {
+
+        closeResult();
+        closeColorGenerator();
+        closeGenreGenerator();
+        closeTropeGenerator();
+
+        if (!letterGeneratorOverlay) {
+            return;
+        }
+
+        if (letterResult) {
+            letterResult.textContent =
+                "Ready to spin 🔤";
+        }
+
+        letterGeneratorOverlay
+            .classList
+            .add("show");
+
+        letterGeneratorOverlay
+            .setAttribute(
+                "aria-hidden",
+                "false"
+            );
+
+        drawLetterWheel();
+    }
+
+
+    function closeLetterGenerator() {
+
+        if (!letterGeneratorOverlay) {
+            return;
+        }
+
+        letterGeneratorOverlay
+            .classList
+            .remove("show");
+
+        letterGeneratorOverlay
+            .setAttribute(
+                "aria-hidden",
+                "true"
+            );
+    }
+
+
+    function spinLetterWheel() {
+
+        if (
+            letterSpinning ||
+            !letterCanvas ||
+            !letterCtx
+        ) {
+            return;
+        }
+
+        letterSpinning = true;
+
+        if (spinLetterButton) {
+            spinLetterButton.disabled = true;
+        }
+
+        if (letterResult) {
+            letterResult.textContent =
+                "Choosing a letter…";
+        }
+
+
+        const startRotation =
+            letterRotation;
+
+        const totalRotation =
+            (6 + Math.random() * 4) *
+            Math.PI *
+            2 +
+            Math.random() *
+            Math.PI *
+            2;
+
+        const duration = 3500;
+        const startTime = performance.now();
+
+
+        function animate(currentTime) {
+
+            const progress =
+                Math.min(
+                    (currentTime - startTime) /
+                    duration,
+                    1
+                );
+
+            const eased =
+                1 -
+                Math.pow(
+                    1 - progress,
+                    4
+                );
+
+            letterRotation =
+                startRotation +
+                totalRotation *
+                eased;
+
+            drawLetterWheel();
+
+
+            if (progress < 1) {
+
+                requestAnimationFrame(
+                    animate
+                );
+
+                return;
+            }
+
+
+            letterRotation =
+                normalizeAngle(
+                    letterRotation
+                );
+
+            drawLetterWheel();
+
+            const selected =
+                getSelectedLetter();
+
+            letterSpinning = false;
+
+            if (spinLetterButton) {
+                spinLetterButton.disabled = false;
+            }
+
+            if (letterResult) {
+                letterResult.textContent =
+                    `🔤 Letter: ${selected}`;
             }
         }
 
@@ -1864,14 +2140,12 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     }
 
-
     if (testColorButton) {
         testColorButton.addEventListener(
             "click",
             openColorGenerator
         );
     }
-
 
     if (testGenreButton) {
         testGenreButton.addEventListener(
@@ -1880,11 +2154,17 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     }
 
-
     if (testTropeButton) {
         testTropeButton.addEventListener(
             "click",
             openTropeGenerator
+        );
+    }
+
+    if (testLetterButton) {
+        testLetterButton.addEventListener(
+            "click",
+            openLetterGenerator
         );
     }
 
@@ -1896,7 +2176,6 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     }
 
-
     if (spinGenreButton) {
         spinGenreButton.addEventListener(
             "click",
@@ -1904,11 +2183,17 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     }
 
-
     if (spinTropeButton) {
         spinTropeButton.addEventListener(
             "click",
             spinTropeWheel
+        );
+    }
+
+    if (spinLetterButton) {
+        spinLetterButton.addEventListener(
+            "click",
+            spinLetterWheel
         );
     }
 
@@ -1920,7 +2205,6 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     }
 
-
     if (closeGenreGeneratorButton) {
         closeGenreGeneratorButton.addEventListener(
             "click",
@@ -1928,11 +2212,17 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     }
 
-
     if (closeTropeGeneratorButton) {
         closeTropeGeneratorButton.addEventListener(
             "click",
             closeTropeGenerator
+        );
+    }
+
+    if (closeLetterGeneratorButton) {
+        closeLetterGeneratorButton.addEventListener(
+            "click",
+            closeLetterGenerator
         );
     }
 
@@ -1980,55 +2270,48 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    if (colorGeneratorOverlay) {
+    const generatorOverlays = [
+        {
+            overlay: colorGeneratorOverlay,
+            close: closeColorGenerator
+        },
+        {
+            overlay: genreGeneratorOverlay,
+            close: closeGenreGenerator
+        },
+        {
+            overlay: tropeGeneratorOverlay,
+            close: closeTropeGenerator
+        },
+        {
+            overlay: letterGeneratorOverlay,
+            close: closeLetterGenerator
+        }
+    ];
 
-        colorGeneratorOverlay.addEventListener(
-            "click",
-            event => {
 
-                if (
-                    event.target ===
-                    colorGeneratorOverlay
-                ) {
-                    closeColorGenerator();
-                }
+    generatorOverlays.forEach(
+        item => {
+
+            if (!item.overlay) {
+                return;
             }
-        );
-    }
 
+            item.overlay.addEventListener(
+                "click",
+                event => {
 
-    if (genreGeneratorOverlay) {
+                    if (
+                        event.target ===
+                        item.overlay
+                    ) {
 
-        genreGeneratorOverlay.addEventListener(
-            "click",
-            event => {
-
-                if (
-                    event.target ===
-                    genreGeneratorOverlay
-                ) {
-                    closeGenreGenerator();
+                        item.close();
+                    }
                 }
-            }
-        );
-    }
-
-
-    if (tropeGeneratorOverlay) {
-
-        tropeGeneratorOverlay.addEventListener(
-            "click",
-            event => {
-
-                if (
-                    event.target ===
-                    tropeGeneratorOverlay
-                ) {
-                    closeTropeGenerator();
-                }
-            }
-        );
-    }
+            );
+        }
+    );
 
 
     /* ==========================================
@@ -2043,15 +2326,30 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
+
+            if (
+                letterGeneratorOverlay &&
+                letterGeneratorOverlay
+                    .classList
+                    .contains("show")
+            ) {
+
+                closeLetterGenerator();
+                return;
+            }
+
+
             if (
                 tropeGeneratorOverlay &&
                 tropeGeneratorOverlay
                     .classList
                     .contains("show")
             ) {
+
                 closeTropeGenerator();
                 return;
             }
+
 
             if (
                 genreGeneratorOverlay &&
@@ -2059,9 +2357,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     .classList
                     .contains("show")
             ) {
+
                 closeGenreGenerator();
                 return;
             }
+
 
             if (
                 colorGeneratorOverlay &&
@@ -2069,9 +2369,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     .classList
                     .contains("show")
             ) {
+
                 closeColorGenerator();
                 return;
             }
+
 
             if (
                 resultOverlay &&
@@ -2079,6 +2381,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     .classList
                     .contains("show")
             ) {
+
                 closeResult();
             }
         }
@@ -2093,5 +2396,6 @@ document.addEventListener("DOMContentLoaded", () => {
     drawColorWheel();
     drawGenreWheel();
     drawTropeWheel();
+    drawLetterWheel();
 
 });
