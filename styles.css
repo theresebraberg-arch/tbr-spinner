@@ -17,8 +17,6 @@
     --mint: #b9e6d1;
     --peach: #ffc6a8;
     --yellow: #ffe5a6;
-
-    --shadow: 0 18px 45px rgba(95, 67, 120, 0.16);
 }
 
 html {
@@ -44,7 +42,10 @@ body {
         linear-gradient(135deg, var(--bg-1), var(--bg-2) 50%, var(--bg-3));
 }
 
-/* APP */
+
+/* ==========================================
+   APP
+   ========================================== */
 
 .app {
     width: 100%;
@@ -60,7 +61,10 @@ body {
         max(34px, env(safe-area-inset-bottom));
 }
 
-/* HEADER */
+
+/* ==========================================
+   HEADER
+   ========================================== */
 
 .header {
     text-align: center;
@@ -84,6 +88,7 @@ body {
 
     -webkit-background-clip: text;
     background-clip: text;
+
     color: transparent;
 }
 
@@ -91,11 +96,15 @@ body {
     margin: 8px 0 0;
 
     color: var(--muted);
+
     font-size: clamp(14px, 2vw, 17px);
     font-weight: 500;
 }
 
-/* MAIN WHEEL */
+
+/* ==========================================
+   MAIN WHEEL
+   ========================================== */
 
 .wheel-container {
     position: relative;
@@ -104,8 +113,8 @@ body {
     aspect-ratio: 1;
 
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
     margin: 4px auto 18px;
 }
@@ -113,21 +122,24 @@ body {
 #wheel {
     width: 100%;
     height: 100%;
+
     display: block;
 
     filter:
-        drop-shadow(0 18px 28px rgba(100, 72, 130, 0.18));
+        drop-shadow(
+            0 18px 28px rgba(100, 72, 130, 0.18)
+        );
 }
 
 .pointer {
     position: absolute;
 
+    z-index: 10;
+
     top: -4px;
     left: 50%;
 
     transform: translateX(-50%);
-
-    z-index: 10;
 
     width: 0;
     height: 0;
@@ -137,10 +149,15 @@ body {
     border-top: 38px solid #7f62c8;
 
     filter:
-        drop-shadow(0 4px 4px rgba(95, 60, 120, 0.18));
+        drop-shadow(
+            0 4px 4px rgba(95, 60, 120, 0.18)
+        );
 }
 
-/* MAIN BUTTON */
+
+/* ==========================================
+   MAIN SPIN BUTTON
+   ========================================== */
 
 .spin-button {
     min-width: 190px;
@@ -193,13 +210,17 @@ body {
     transform: none;
 }
 
-/* TEXT UNDER MAIN BUTTON */
+
+/* ==========================================
+   MAIN TEXT
+   ========================================== */
 
 .spinning-message {
     min-height: 24px;
     margin-top: 13px;
 
     color: #80689b;
+
     font-size: 14px;
     font-weight: 600;
 }
@@ -208,10 +229,60 @@ body {
     margin-top: 8px;
 
     color: var(--muted);
+
     font-size: 13px;
 }
 
-/* RESULT OVERLAY */
+
+/* ==========================================
+   TEST BUTTONS
+   ========================================== */
+
+.test-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+
+    margin-top: 16px;
+}
+
+.test-button {
+    padding: 9px 15px;
+
+    border: none;
+    border-radius: 999px;
+
+    background:
+        rgba(255, 255, 255, 0.72);
+
+    color: #6f4da2;
+
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.4px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 6px 15px rgba(103, 75, 126, 0.12);
+
+    transition:
+        transform 0.15s ease,
+        background 0.15s ease;
+}
+
+.test-button:hover {
+    transform: translateY(-1px);
+
+    background:
+        rgba(255, 255, 255, 0.95);
+}
+
+
+/* ==========================================
+   RESULT OVERLAY
+   ========================================== */
 
 .result-overlay {
     position: fixed;
@@ -245,8 +316,6 @@ body {
 }
 
 .result-card {
-    position: relative;
-
     width: min(450px, 92vw);
 
     padding: 34px 28px 28px;
@@ -289,8 +358,8 @@ body {
     margin: 0 auto 16px;
 
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
     border-radius: 50%;
 
@@ -312,11 +381,11 @@ body {
 
     color: #9a7cae;
 
-    text-transform: uppercase;
-    letter-spacing: 2.4px;
-
     font-size: 12px;
     font-weight: 800;
+
+    text-transform: uppercase;
+    letter-spacing: 2.4px;
 }
 
 .result-text {
@@ -325,8 +394,9 @@ body {
     color: #32243b;
 
     font-size: clamp(26px, 6vw, 38px);
-    line-height: 1.12;
     font-weight: 900;
+
+    line-height: 1.12;
 }
 
 .result-description {
@@ -363,15 +433,6 @@ body {
     font-weight: 800;
 
     cursor: pointer;
-
-    transition:
-        transform 0.15s ease,
-        filter 0.15s ease;
-}
-
-.result-actions button:hover {
-    transform: translateY(-1px);
-    filter: brightness(1.02);
 }
 
 .close-button {
@@ -390,7 +451,10 @@ body {
     color: #362540;
 }
 
-/* COLOR GENERATOR OVERLAY */
+
+/* ==========================================
+   GENERATOR OVERLAY
+   ========================================== */
 
 .generator-overlay {
     position: fixed;
@@ -429,6 +493,7 @@ body {
     width: min(560px, 94vw);
 
     max-height: calc(100vh - 36px);
+
     overflow-y: auto;
 
     padding: 28px 26px 26px;
@@ -448,6 +513,11 @@ body {
     box-shadow:
         0 30px 80px rgba(90, 60, 115, 0.25);
 }
+
+
+/* ==========================================
+   GENERATOR HEADER
+   ========================================== */
 
 .generator-close {
     position: absolute;
@@ -485,8 +555,8 @@ body {
     flex: 0 0 auto;
 
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
     border-radius: 18px;
 
@@ -529,7 +599,10 @@ body {
     line-height: 1.5;
 }
 
-/* MINI WHEEL */
+
+/* ==========================================
+   MINI WHEELS
+   ========================================== */
 
 .mini-wheel-container {
     position: relative;
@@ -540,14 +613,17 @@ body {
     margin: 16px auto 12px;
 }
 
-#colorWheel {
+#colorWheel,
+#genreWheel {
     width: 100%;
     height: 100%;
 
     display: block;
 
     filter:
-        drop-shadow(0 16px 24px rgba(97, 70, 120, 0.18));
+        drop-shadow(
+            0 16px 24px rgba(97, 70, 120, 0.18)
+        );
 }
 
 .mini-pointer {
@@ -568,8 +644,15 @@ body {
     border-top: 30px solid #6f4da2;
 
     filter:
-        drop-shadow(0 3px 3px rgba(60, 40, 75, 0.18));
+        drop-shadow(
+            0 3px 3px rgba(60, 40, 75, 0.18)
+        );
 }
+
+
+/* ==========================================
+   GENERATOR RESULT
+   ========================================== */
 
 .generator-result {
     min-height: 48px;
@@ -598,6 +681,11 @@ body {
 
     text-align: center;
 }
+
+
+/* ==========================================
+   GENERATOR SPIN BUTTON
+   ========================================== */
 
 .generator-spin-button {
     width: 100%;
@@ -631,6 +719,7 @@ body {
 
 .generator-spin-button:hover {
     transform: translateY(-1px);
+
     filter: brightness(1.02);
 }
 
@@ -640,11 +729,16 @@ body {
 
 .generator-spin-button:disabled {
     opacity: 0.6;
+
     cursor: default;
+
     transform: none;
 }
 
-/* MOBILE */
+
+/* ==========================================
+   MOBILE
+   ========================================== */
 
 @media (max-width: 600px) {
 
@@ -659,6 +753,7 @@ body {
 
     .wheel-container {
         width: min(86vw, 450px);
+
         margin-bottom: 14px;
     }
 
@@ -670,12 +765,15 @@ body {
 
     .spin-button {
         min-width: 160px;
+
         padding: 14px 28px;
+
         font-size: 18px;
     }
 
     .result-card {
         padding: 30px 20px 22px;
+
         border-radius: 24px;
     }
 
@@ -685,6 +783,7 @@ body {
 
     .generator-card {
         padding: 24px 18px 20px;
+
         border-radius: 24px;
     }
 
@@ -695,16 +794,25 @@ body {
     .generator-icon {
         width: 50px;
         height: 50px;
+
         border-radius: 15px;
+
         font-size: 26px;
     }
 
     .mini-wheel-container {
         width: min(76vw, 330px);
     }
+
+    .test-buttons {
+        max-width: 330px;
+    }
 }
 
-/* SMALL HEIGHT SCREENS */
+
+/* ==========================================
+   SMALL HEIGHT SCREENS
+   ========================================== */
 
 @media (max-height: 750px) and (min-width: 601px) {
 
@@ -726,6 +834,7 @@ body {
 
     .wheel-container {
         width: min(64vh, 500px);
+
         margin-bottom: 10px;
     }
 
@@ -744,7 +853,10 @@ body {
     }
 }
 
-/* REDUCED MOTION */
+
+/* ==========================================
+   REDUCED MOTION
+   ========================================== */
 
 @media (prefers-reduced-motion: reduce) {
 
