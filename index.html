@@ -18,7 +18,7 @@
 
     <link
         rel="stylesheet"
-        href="styles.css?v=4"
+        href="styles.css?v=5"
     >
 </head>
 
@@ -100,14 +100,20 @@
                 TEST GENRE
             </button>
 
+            <button
+                class="test-button"
+                id="testTropeButton"
+                type="button"
+            >
+                TEST TROPE
+            </button>
+
         </div>
 
     </main>
 
 
-    <!-- ======================================
-         NORMAL RESULT POPUP
-         ====================================== -->
+    <!-- NORMAL RESULT POPUP -->
 
     <div
         class="result-overlay"
@@ -179,9 +185,7 @@
     </div>
 
 
-    <!-- ======================================
-         COLOR GENERATOR
-         ====================================== -->
+    <!-- COLOR GENERATOR -->
 
     <div
         class="generator-overlay"
@@ -272,9 +276,7 @@
     </div>
 
 
-    <!-- ======================================
-         GENRE GENERATOR
-         ====================================== -->
+    <!-- GENRE GENERATOR -->
 
     <div
         class="generator-overlay"
@@ -365,7 +367,98 @@
     </div>
 
 
-    <script src="script.js?v=4"></script>
+    <!-- TROPE GENERATOR -->
+
+    <div
+        class="generator-overlay"
+        id="tropeGeneratorOverlay"
+        aria-hidden="true"
+    >
+
+        <div
+            class="generator-card"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="tropeGeneratorTitle"
+        >
+
+            <button
+                class="generator-close"
+                id="closeTropeGenerator"
+                type="button"
+                aria-label="Close trope generator"
+            >
+                ×
+            </button>
+
+
+            <div class="generator-heading">
+
+                <div class="generator-icon">
+                    💘
+                </div>
+
+
+                <div>
+
+                    <div class="generator-kicker">
+                        MINI WHEEL
+                    </div>
+
+                    <h2 id="tropeGeneratorTitle">
+                        Trope Generator
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <p class="generator-intro">
+                Spin to choose a trope for your next read.
+            </p>
+
+
+            <div class="mini-wheel-container">
+
+                <div
+                    class="mini-pointer"
+                    aria-hidden="true"
+                ></div>
+
+                <canvas
+                    id="tropeWheel"
+                    width="500"
+                    height="500"
+                    aria-label="Trope generator wheel"
+                ></canvas>
+
+            </div>
+
+
+            <div
+                class="generator-result"
+                id="tropeResult"
+                aria-live="polite"
+            >
+                Ready to spin 💘
+            </div>
+
+
+            <button
+                class="generator-spin-button"
+                id="spinTropeButton"
+                type="button"
+            >
+                SPIN TROPE
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <script src="script.js?v=5"></script>
 
 </body>
 
