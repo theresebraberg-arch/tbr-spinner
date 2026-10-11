@@ -868,3 +868,151 @@ body {
         transition-duration: 0.01ms !important;
     }
 }
+
+
+/* ==========================================
+   THE ENCHANTED TBR WHEEL
+   Magical plum & gold theme
+   ========================================== */
+
+:root {
+    --bg-1: #1d102b;
+    --bg-2: #321b43;
+    --bg-3: #160e24;
+    --text: #f9eccc;
+    --muted: #d5c2df;
+}
+
+body {
+    font-family: Georgia, "Times New Roman", serif;
+    background:
+        radial-gradient(circle at 20% 15%, rgba(157, 105, 174, .22), transparent 34%),
+        radial-gradient(circle at 80% 75%, rgba(188, 142, 79, .13), transparent 36%),
+        radial-gradient(circle at 50% 45%, rgba(91, 48, 116, .22), transparent 55%),
+        linear-gradient(145deg, #1d102b, #321b43 55%, #160e24);
+    background-attachment: fixed;
+}
+
+.app {
+    position: relative;
+    isolation: isolate;
+}
+
+.app::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+        radial-gradient(2px 2px at 12% 18%, #e9c98d 98%, transparent),
+        radial-gradient(2px 2px at 83% 12%, #e9c98d 98%, transparent),
+        radial-gradient(3px 3px at 72% 68%, #f4dca8 98%, transparent),
+        radial-gradient(2px 2px at 23% 78%, #e9c98d 98%, transparent),
+        radial-gradient(2px 2px at 90% 85%, #e9c98d 98%, transparent),
+        radial-gradient(2px 2px at 43% 8%, #e9c98d 98%, transparent);
+    opacity: .7;
+}
+
+.header h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 700;
+    letter-spacing: .3px;
+    background: linear-gradient(135deg, #fff0c8, #d8af69, #fff0c8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: none;
+}
+
+.header p,
+.helper-text {
+    color: #d5c2df;
+}
+
+.wheel-container {
+    filter: drop-shadow(0 0 28px rgba(217, 177, 108, .2));
+}
+
+#wheel {
+    filter: drop-shadow(0 15px 26px rgba(0, 0, 0, .4));
+}
+
+.pointer {
+    border-top-color: #e4bc75;
+    filter: drop-shadow(0 3px 5px rgba(0, 0, 0, .5));
+}
+
+.spin-button,
+.again-button,
+.generator-spin-button {
+    background: linear-gradient(135deg, #f4dfaa, #c7984d, #efd39a);
+    color: #342039;
+    border: 1px solid #f6dfad;
+    box-shadow: 0 8px 28px rgba(210, 159, 78, .27);
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+.spin-button:hover,
+.generator-spin-button:hover {
+    box-shadow: 0 12px 36px rgba(226, 180, 96, .4);
+}
+
+.spinning-message {
+    color: #efd39a;
+}
+
+.result-overlay,
+.generator-overlay {
+    background: rgba(15, 7, 24, .72);
+}
+
+.result-card,
+.generator-card {
+    background: linear-gradient(145deg, #fff3d8, #e8d1a5);
+    border: 2px solid #c99e5b;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, .5);
+    color: #412b38;
+}
+
+.result-text,
+.generator-heading h2 {
+    color: #432a3d;
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+.result-label,
+.generator-kicker {
+    color: #8e613b;
+}
+
+.result-description,
+.generator-intro {
+    color: #69505a;
+}
+
+.result-icon,
+.generator-icon {
+    background: linear-gradient(135deg, #f8e6ba, #d4ab69);
+}
+
+.close-button,
+.generator-close {
+    background: #e1caa5;
+    color: #432a3d;
+}
+
+.mini-pointer {
+    border-top-color: #c7984d;
+}
+
+.generator-result {
+    background: #f5e4c5;
+    color: #432a3d;
+}
+
+.test-button {
+    background: #e8d4b0;
+    color: #432a3d;
+}
+
