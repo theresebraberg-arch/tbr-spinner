@@ -383,20 +383,19 @@ const wheelColors = [
 ];
 
 
-    const miniWheelColors = [
-        "#f6a9cf",
-        "#c7b6ff",
-        "#a9d6f5",
-        "#b9e6d1",
-        "#ffc6a8",
-        "#ffe5a6",
-        "#ffbdd5",
-        "#d8c8ff",
-        "#bfe7ff",
-        "#c8efd8",
-        "#f3b9e4",
-        "#b8d7ef"
-    ];
+    
+const miniWheelColors = [
+    "#d8a4a8", // Gammelrosa
+    "#e8c9a5", // Varm beige
+    "#b7a1c9", // Dov lavendel
+    "#d9b76e", // Champagneguld
+    "#a7b8a1", // Salviagrönt
+    "#e7b8c8", // Puderrosa
+    "#c4a8a0", // Dämpad rosé
+    "#f0d8b5", // Ljus champagne
+    "#c8b5d5", // Mjuk syren
+    "#b9c7ad"  // Ljus salvia
+];
 
 
     /* STATE */
