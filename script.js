@@ -607,6 +607,7 @@ const wheelColors = [
 
         ctx.beginPath();
 
+        
         ctx.arc(
             center,
             center,
@@ -615,21 +616,22 @@ const wheelColors = [
             Math.PI * 2
         );
 
-        ctx.fillStyle = "#fffafd";
+        // Champagnefärgad mitt
+        ctx.fillStyle = "#f3dfb4";
         ctx.fill();
 
-        ctx.strokeStyle = "#b998e5";
+        // Guldkant
+        ctx.strokeStyle = "#c7984d";
         ctx.lineWidth = 4;
         ctx.stroke();
 
-
-        ctx.fillStyle = "#6f4da2";
+        // Mörkt plommonlila text
+        ctx.fillStyle = "#38213f";
 
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
 
-        ctx.font =
-            "900 21px -apple-system, BlinkMacSystemFont, sans-serif";
+        ctx.font = "900 21px Georgia, serif";
 
         ctx.fillText(
             "TBR",
@@ -637,18 +639,17 @@ const wheelColors = [
             center - 7
         );
 
+        // Liten text under
+        ctx.fillStyle = "#77546d";
 
-        ctx.fillStyle =
-            "rgba(111, 77, 162, 0.65)";
-
-        ctx.font =
-            "700 10px -apple-system, BlinkMacSystemFont, sans-serif";
+        ctx.font = "700 10px Georgia, serif";
 
         ctx.fillText(
-            "SPINNER",
+            "WHEEL",
             center,
             center + 16
         );
+
     }
 
 
